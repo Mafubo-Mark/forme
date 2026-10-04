@@ -4,7 +4,7 @@
 
 ## 已有资源和未决输入
 
-- GitHub 仓库：`https://github.com/mafubo-mark/forme`，使用最新 `main`。
+- GitHub 私有仓库：`https://github.com/galaxypple072-oss/forme-customer`，使用最新 `main`。服务器上的 Claude Code 需要此仓库的读取权限。
 - 站点静态目录：仓库的 `dist/`。无需 npm 构建。
 - 本地后端：`127.0.0.1:8001`，只在用户电脑上监听回环地址。
 - 云服务器系统、域名、公网 IP、SSH 用户和证书路径尚须向用户确认；不要猜测或把示例域名当真。
