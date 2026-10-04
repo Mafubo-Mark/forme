@@ -1,57 +1,21 @@
-# Forme — Custom Prosthetic Cover Platform
+# Forme 用户前端
 
-Forme is a responsive, framework-free demo for Hong Kong users to design a custom prosthetic cover. The flow includes video selection, an illustrative model preview, color and inspiration input, material selection, saved designs, demo checkout, orders, and delivery status.
+这是独立的用户静态站点。公开部署时只发布 `dist/`；操作后台、后端源码、视频、数据库和密钥留在本地电脑。
 
-## Run locally
+## 已实现
 
-Serve the `dist/` folder with any static web server. For example:
+- 服务端共享密钥登录，登录后通过 HttpOnly Cookie 上传视频并查看自己的提交。
+- 七款现有保护套样式，可旋转的轻量 GLB 预览；保留四种预设颜色并增加自定义颜色。
+- 影片、样式、颜色、材料和灵感资料提交到真实 Forme 后端；页面显示实际工作流状态。
+- 英文与繁体中文切换，语言选择保存在浏览器。
+- 尚未接通的下单和配送页面明确显示“即将推出”，不会生成虚假的付款或送达记录。
 
-```bash
-cd dist
-python3 -m http.server 8000
-```
+用户端调用同源的 `/api/customer/*` 和 `/api/uploads/*`。**云服务器必须把这两个路径转发到本地后端**；仅上传静态文件会导致登录和上传不可用。参见 [部署交接文档](deploy/CLAUDE_DEPLOY.md)。
 
-Open `http://localhost:8000`. The demo account is `demo@forme.hk` with password `123456`.
+3D 模板是样式预览，不是根据用户影片生成的适配模型；实际加工与贴合须经过后续建模和人工复核。预览使用本地打包的 [model-viewer](https://modelviewer.dev/) 4.3.1，不依赖运行时脚本 CDN。
 
-## Demo behavior
+## 本地开发
 
-- Video and image inputs validate locally, but files are **not uploaded**. Only their filenames are saved in the browser.
-- The model preview is illustrative; no AI or Blender service is connected.
-- Designs, orders, and the demo session are saved in browser local storage on the current device.
-- Checkout does not charge money. A placed demo order is marked paid and delivered so the entire flow can be explored.
-- Prices are intentionally "To be confirmed" until production pricing is available.
-- Sign-in is a demo credential check, not production authentication.
+本地后端仓库位于 `../forme-backend/`。运行该目录的 `./run-local.sh` 后，在 `http://127.0.0.1:8001/` 查看用户站点；操作后台位于单独的 `http://127.0.0.1:8001/operator/`。客户密钥保存在后端本机 `.customer-access-key`，不要提交到 GitHub。
 
-## Pages
-
-| Page | Purpose |
-| --- | --- |
-| `index.html` | Home and seven-step process |
-| `login.html` | Demo account sign-in |
-| `create.html` | Record, model, color, material design flow |
-| `prosthetic.html` | Saved cover gallery with edit and order actions |
-| `checkout.html` | Hong Kong address and demo order |
-| `order.html` | Order history |
-| `delivery.html` | Delivery status |
-| `account.html` | Demo profile and activity |
-
-## Backend integration
-
-The frontend uses HTML, CSS, and vanilla JavaScript. API integration points are marked `API RESERVED` in `dist/js/main.js`:
-
-| Method and path | Purpose |
-| --- | --- |
-| `POST /api/auth/login` | Authenticate a user |
-| `POST /api/model/generate` | Upload a video and generate a model |
-| `GET /api/colors/templates` | Load available finishes |
-| `POST /api/prosthetic/save` | Save a design |
-| `POST /api/order/create` | Create an order after payment |
-| `POST /api/address/save` | Save a delivery address |
-| `GET /api/order/list` | Load order history |
-| `GET /api/delivery/status` | Load shipment updates |
-
-`database/schema.sql` is a MySQL 8.0+ starter schema with `users`, `prosthetics`, `color_templates`, `orders`, and `deliveries`. Import it with `mysql -u root -p < database/schema.sql`. It does not seed a real login; the demo credential exists only in the frontend.
-
-## Production work remaining
-
-Connect a secure authentication service, file storage, 3D modeling service, live model viewer, pricing and Hong Kong payment provider, and carrier tracking. Validate cover fit and manufacturing details before accepting actual orders.
+只用 `python3 -m http.server` 打开 `dist/` 可查看静态页面，但需要同源 `/api` 代理才能完成登录和提交。
