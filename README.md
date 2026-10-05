@@ -4,6 +4,8 @@
 
 完整架构、真实请求流程、后台工作流及后续实施路径见[前后端系统说明](docs/SYSTEM_ARCHITECTURE_ZH.md)。
 
+负责云端改造的同事请从[云端改造任务书](deploy/CLOUD_COLLEAGUE_HANDOFF_ZH.md)开始。
+
 ## 已实现
 
 - 服务端共享密钥登录，登录后通过 HttpOnly Cookie 上传视频并查看自己的提交。
