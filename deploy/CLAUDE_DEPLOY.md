@@ -2,6 +2,8 @@
 
 目标：部署此仓库的 `dist/` 为公开用户网站。**不要部署或创建操作后台。** 实际 API 和视频数据继续保存在用户本地电脑运行的 Forme 后端。
 
+前后端整体原理、接口和当前实现边界见[系统说明](../docs/SYSTEM_ARCHITECTURE_ZH.md)。
+
 ## 已有资源和未决输入
 
 - GitHub 仓库：`https://github.com/Mafubo-Mark/forme`，使用最新 `main`。
