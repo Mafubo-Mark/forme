@@ -1,5 +1,7 @@
 # 前端云部署／本地后端连接
 
+> 以下是短期联调方式，不能满足 24 小时登录、上传和查进度的要求。正式部署以[持续可用方案](ALWAYS_ON_ARCHITECTURE_ZH.md)为准：客户 API、数据库和视频存储在云端常驻，本机仅主动领取排队中的建模任务。
+
 `dist/` 是独立静态站点，只上传这个目录到云服务器。`operator/`、`data/`、本地密钥文件和后端源码不进入公开网站目录。云服务器用 Nginx 提供 HTTPS 页面，并把同一域名下的 `/api/customer/*`、`/api/uploads/*` 通过 SSH 反向隧道转发到本机 `127.0.0.1:8001`。其他 `/api/*` 和 `/operator/*` 明确返回 404。
 
 1. 在本地后端设置 `FORME_SECURE_CUSTOMER_COOKIE=1` 后运行 `./run-local.sh`。客户密钥存于本机 `.customer-access-key`，权限应为 600；可以在启动前用 `FORME_CUSTOMER_ACCESS_KEY` 指定自己的强随机密钥。

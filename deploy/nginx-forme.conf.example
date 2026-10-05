@@ -1,3 +1,5 @@
+# SHORT-TERM INTEGRATION TEST ONLY. The reverse tunnel cannot provide always-on
+# login/upload/status when the owner's Mac is offline. See ALWAYS_ON_ARCHITECTURE_ZH.md.
 # Replace example.com and /srv/forme/web, then install under /etc/nginx/sites-available/.
 # TLS should be configured on the public server before accepting customer access keys.
 limit_req_zone $binary_remote_addr zone=forme_login:10m rate=5r/m;
