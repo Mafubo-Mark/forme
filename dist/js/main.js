@@ -13,6 +13,19 @@
     const open = $('.nav-links').classList.toggle('open');
     event.currentTarget.setAttribute('aria-expanded', String(open));
   });
+  if (page === 'home') {
+    const model = $('.hero-model');
+    const motion = window.matchMedia('(prefers-reduced-motion: reduce)');
+    let visible = true;
+    const updateRotation = () => model?.toggleAttribute('auto-rotate', visible && !motion.matches);
+    motion.addEventListener?.('change', updateRotation);
+    if ('IntersectionObserver' in window) {
+      new IntersectionObserver(([entry]) => {
+        visible = entry.isIntersecting;
+        updateRotation();
+      }, { threshold: 0.1 }).observe(model);
+    } else updateRotation();
+  }
   if (page === 'login') {
     $('#login-form').addEventListener('submit', async event => {
       event.preventDefault();

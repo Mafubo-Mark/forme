@@ -7,6 +7,7 @@
     ['PERSONAL DESIGN, REIMAGINED','重新想像個人設計'],['A cover that feels','一款真正屬於'],['like yours.','你的保護套。'],
     ['Turn a short video of your prosthesis into a cover shaped for you. Choose a finish, select a material, and we’ll make it here for your next chapter.','上傳義肢短片，選擇樣式、顏色與材料，讓我們為你設計專屬保護套。'],
     ['Made for Hong Kong, made for you.','為香港製作，為你而設。'],['FORM, FUNCTION, FREEDOM','造型、功能、自由'],
+    ['Drag to rotate · Style preview','拖動旋轉 · 樣式預覽'],['Interactive 3D preview of a prosthetic cover style','義肢保護套樣式互動 3D 預覽'],
     ['Shape your story','塑造你的風格'],['Designed around your prosthesis','依照你的義肢設計'],
     ['01 Built around you','01   為你量身設計'],['02 Finished your way','02   自選外觀'],['03 Delivered in Hong Kong','03   香港配送'],
     ['THE PROCESS','設計流程'],['From a video to','從一段影片開始，'],['your own design.','打造專屬設計。'],

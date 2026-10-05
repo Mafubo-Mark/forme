@@ -31,8 +31,9 @@
         <div class="hero-footnote"><span class="small-orbit" aria-hidden="true"></span><span>Made for Hong Kong, made for you.</span></div>
       </div>
       <div class="hero-visual" aria-label="Custom prosthetic cover product preview">
-        <div class="hero-image-wrap"><img class="hero-product" src="assets/cover-hero.png" alt="3D model of a custom prosthetic cover" /></div>
-        <div class="visual-index">01 / 03 <span></span> FORM, FUNCTION, FREEDOM</div>
+        <div class="hero-image-wrap"><model-viewer class="hero-model" src="assets/templates/01.glb" poster="assets/templates/01.png" alt="Interactive 3D preview of a prosthetic cover style" camera-controls touch-action="pan-y" shadow-intensity="1" interaction-prompt="none" auto-rotate-delay="0" rotation-per-second="10deg"><img slot="poster" src="assets/templates/01.png" alt=""></model-viewer></div>
+        <div class="hero-model-hint">Drag to rotate · Style preview</div>
+        <div class="visual-index">01 / 07 <span></span> FORM, FUNCTION, FREEDOM</div>
         <div class="floating-note"><span class="note-swatch"></span><div><strong>Shape your story</strong><small>Designed around your prosthesis</small></div></div>
       </div>
     </section>
@@ -52,6 +53,6 @@
     <section class="bottom-cta"><div><p class="eyebrow">READY WHEN YOU ARE</p><h2>Make it<br><em>your own.</em></h2></div><div><p>Sign in to upload your video, choose a style, and follow design progress.</p><a class="button button-light" href="login.html">Sign in to Forme <span aria-hidden="true">↗</span></a></div></section>
   </main>
   <footer class="site-footer"><a class="wordmark" href="index.html">forme<span class="wordmark-dot">.</span></a><span>Custom prosthetic covers · Hong Kong</span><span>© 2026 Forme</span></footer>
-  <script src="js/i18n.js" defer></script><script src="js/main.js" defer></script>
+  <script src="js/i18n.js" defer></script><script type="module" src="js/vendor/model-viewer.min.js"></script><script src="js/main.js" defer></script>
 </body>
 </html>
