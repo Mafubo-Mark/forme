@@ -128,6 +128,17 @@ class CloudBridge:
         else:
             status, stage = "accepted", "queued"
             note = "本机已接收视频，等待操作员复核拍摄与标尺。" if upload["status"] != "accepted" else "本机拍摄审核已通过，等待建模任务。"
+        if remote_artifact_sha:
+            task_dir = self.settings.data_dir / "cover_tasks" / sid
+            review_path = task_dir / "candidate_review.json"
+            if review_path.is_file():
+                review = json.loads(review_path.read_text(encoding="utf-8"))
+                candidate_id = review.get("candidateId")
+                report_path = task_dir / "candidate_print_trial" / candidate_id / "build_report.json" if isinstance(candidate_id, str) else None
+                if report_path and report_path.is_file():
+                    report = json.loads(report_path.read_text(encoding="utf-8"))
+                    if report.get("sourceMode") == "HISTORICAL_SAME_CAPTURE_REPLAY_FOR_BRIDGE_VALIDATION":
+                        note = "同一拍摄素材的历史数字试样已回传，仅验证云端文件链路；当前新点云和混元白模未重新拟合此保护套，禁止客户发布。"
         self.request("POST", f"/api/worker/jobs/{sid}/progress", {"status": status, "stage": stage, "note": note[:500]})
         if upload["status"] != "accepted":
             return
