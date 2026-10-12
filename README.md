@@ -4,7 +4,7 @@
 
 本次版本增加邮箱／账号注册登录、按用户持久保存设计、视频与建模历史、报价后下单、付款凭证及管理员审核、物流更新、确认收货，以及中文管理平台。云端服务是 `cloud/app.py`，公开站点仍为 `dist/`。数据库使用 MySQL，用户密码使用 scrypt 哈希，视频与凭证放私有目录。
 
-生产目标为 `https://my-robot-home.com/`。管理页面是 `/admin`（亦可访问 `/admin.html`），使用 `forme` 与服务器私有配置中的强密码。管理员可从页面打开本机建模工作流；远程操作连接和密钥配置见 [远程管理说明](deploy/REMOTE_OPERATOR_ZH.md)。云端与本机任务领取、进度及候选产物回传见 [工作器连接说明](deploy/CLOUD_MAC_BRIDGE_ZH.md)。
+当前演示站为 `https://forme.agents-time.com/`。管理页面是 `/admin`（亦可访问 `/admin.html`），使用 `forme` 与服务器私有配置中的强密码。管理员可从页面打开本机建模工作流；当前站点的对接步骤见 [Claude Code 接通清单](deploy/CLAUDE_CONNECT_AGENTS_TIME_ZH.md)。通用的远程操作与任务桥接说明分别见 [远程管理说明](deploy/REMOTE_OPERATOR_ZH.md) 和 [工作器连接说明](deploy/CLOUD_MAC_BRIDGE_ZH.md)。
 
 本仓库的本地测试不代表生产服务器已升级；以生产 `/api/health` 的版本和 [远程管理验收步骤](deploy/REMOTE_OPERATOR_ZH.md) 为准。`docs/本次部署状态与数据库说明.md` 记录的是首次交付时的状态。旧 `deploy/README.md` 描述早期静态站点原型；当前云端客户服务独立运行，Mac 仅负责排队建模与远程操作。
 
