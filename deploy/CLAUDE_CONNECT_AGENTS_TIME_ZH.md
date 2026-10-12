@@ -8,6 +8,7 @@
 - `/admin` 返回 302，未登录访问 `/api/worker/jobs` 与 `/api/admin/operator/` 都返回 401。
 - 新域名的管理员登录请求能够通过来源检查；错误密码返回 401。
 - Mac `127.0.0.1:8001` 已能启动媒体、COLMAP、混元工作器。Mac 尚未收到云端工作器密钥，也尚未建立 SSH 反向隧道。
+- 用户提供的服务器地址是 `156.233.235.150`。22 端口可建立 SSH 连接，但 2026-10-13 使用下面的 Mac 公钥登录 `forme_tunnel@156.233.235.150` 返回 `Permission denied (publickey,password)`，需完成账号/公钥配置。Mac 扫描到的服务器 ED25519 指纹为 `SHA256:sttt8vzFWGjEq+P8PEKOVU7LNocx7aJHe1LVFgw1hI0`；请在服务器本机核对指纹是否一致。用户提到的 `18086` 是 API 端口，Mac 配对 SSH 使用 22，除非你们另改端口。
 - 一个真实演示账号和任务已在新站创建。任务 ID 是 `d4ca3886da744c19a2adaa212bcfb9d4`，上传的是原始标定尺视频内容的 4K 压缩副本（73,998,068 字节），当前状态 `needs_capture_review`。账号密码只保存在 Mac 私有目录。原始 139,517,016 字节文件经过 Cloudflare 上传时返回 502；请检查 Cloudflare 上传限制与源站 Nginx 日志。云端应用本身允许最高 512 MiB，不代表 CDN 能通过同样大小的单请求。
 
 ## 请在服务器完成
