@@ -8,7 +8,7 @@
 - `/admin` 返回 302，未登录访问 `/api/worker/jobs` 与 `/api/admin/operator/` 都返回 401。
 - 新域名的管理员登录请求能够通过来源检查；错误密码返回 401。
 - Mac `127.0.0.1:8001` 已能启动媒体、COLMAP、混元工作器。Mac 尚未收到云端工作器密钥，也尚未建立 SSH 反向隧道。
-- 一个真实演示账号已经在新站创建，原始 139,517,016 字节视频上传经过 Cloudflare 时返回 502。演示会改用小于 100 MB 的压缩副本；请同时检查 Cloudflare 上传限制与源站 Nginx 日志。云端应用本身允许最高 512 MiB，不代表 CDN 能通过同样大小的单请求。
+- 一个真实演示账号和任务已在新站创建。任务 ID 是 `d4ca3886da744c19a2adaa212bcfb9d4`，上传的是原始标定尺视频内容的 4K 压缩副本（73,998,068 字节），当前状态 `needs_capture_review`。账号密码只保存在 Mac 私有目录。原始 139,517,016 字节文件经过 Cloudflare 上传时返回 502；请检查 Cloudflare 上传限制与源站 Nginx 日志。云端应用本身允许最高 512 MiB，不代表 CDN 能通过同样大小的单请求。
 
 ## 请在服务器完成
 
@@ -22,7 +22,7 @@
 3. 通过服务器本地脚本从私有配置生成一次性的 `/home/forme_tunnel/forme-bridge-bootstrap.json`，内容只包括 `base_url: "https://forme.agents-time.com"`、`worker_key`、`local_operator_token`。文件归 `forme_tunnel` 所有，权限 600；不要放到网站目录。Mac 会用 SSH 拉取，拉取后自动删除。建议用 Python 读取并写入，避免 `jq`、shell 展开或终端打印令牌。
 4. 告诉 Mac 侧操作者 **SSH 源站 IP/主机名、端口、用户名 `forme_tunnel`、服务器 SSH 主机密钥指纹**，均为非秘密信息。`forme.agents-time.com` 经过 Cloudflare 代理，SSH 通常不能直接连这个网页域名；请提供源站 SSH 地址或专用 SSH 域名。
 5. 确认服务器 SSH 允许 `forme_tunnel` 做 `-R 127.0.0.1:18001:127.0.0.1:8001`。Mac 建立隧道后，在服务器执行 `curl -fsS http://127.0.0.1:18001/health`，并用 `ss -ltn` 确认 18001 只绑定回环。不能将该端口直接暴露公网。
-6. 让管理员在 `https://forme.agents-time.com/admin` 登录。演示任务提交后先改为 `accepted` / `queued`，Mac 工作器才会领取。远程操作入口是管理平台中的“打开本机建模工作流”。
+6. 让管理员在 `https://forme.agents-time.com/admin` 登录。复核上述演示视频后，将任务 `d4ca3886da744c19a2adaa212bcfb9d4` 改为 `accepted` / `queued`，Mac 工作器才会领取。远程操作入口是管理平台中的“打开本机建模工作流”。
 
 ## Mac 侧接下来执行
 
