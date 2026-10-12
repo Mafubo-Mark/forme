@@ -1,79 +1,173 @@
--- Forme MySQL 8.0+ starter schema. Application services and migrations are not included.
-USE forme;
+-- Forme cloud schema reference; actual initialization uses cloud/app.py.
+USE forme_production;
 
-CREATE TABLE IF NOT EXISTS users (
-  id BIGINT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
-  email VARCHAR(255) NOT NULL UNIQUE,
-  password_hash VARCHAR(255) NOT NULL,
-  full_name VARCHAR(120) NULL,
-  phone VARCHAR(30) NULL,
-  created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  updated_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
-);
 
-CREATE TABLE IF NOT EXISTS color_templates (
-  id BIGINT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
-  name VARCHAR(100) NOT NULL UNIQUE,
-  color_hex CHAR(7) NOT NULL,
-  preview_image_url VARCHAR(500) NULL,
-  is_active BOOLEAN NOT NULL DEFAULT TRUE,
-  created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP
-);
+CREATE TABLE audit_events (
+	id VARCHAR(32) NOT NULL,
+	action VARCHAR(60) NOT NULL,
+	target_id VARCHAR(40) NOT NULL,
+	actor VARCHAR(40) NOT NULL,
+	detail TEXT,
+	created_at VARCHAR(40),
+	PRIMARY KEY (id)
+)
 
-CREATE TABLE IF NOT EXISTS prosthetics (
-  id BIGINT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
-  user_id BIGINT UNSIGNED NOT NULL,
-  name VARCHAR(150) NOT NULL,
-  source_video_url VARCHAR(500) NULL,
-  model_url VARCHAR(500) NULL,
-  color_template_id BIGINT UNSIGNED NULL,
-  custom_color_notes TEXT NULL,
-  inspiration_image_url VARCHAR(500) NULL,
-  material ENUM('lightweight_polymer','durable_nylon','premium_resin') NOT NULL,
-  status ENUM('draft','modeling','ready') NOT NULL DEFAULT 'draft',
-  created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  updated_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-  CONSTRAINT fk_prosthetics_user FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE,
-  CONSTRAINT fk_prosthetics_color FOREIGN KEY (color_template_id) REFERENCES color_templates(id) ON DELETE SET NULL,
-  INDEX idx_prosthetics_user_created (user_id, created_at)
-);
+;
 
-CREATE TABLE IF NOT EXISTS orders (
-  id BIGINT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
-  order_number VARCHAR(40) NOT NULL UNIQUE,
-  user_id BIGINT UNSIGNED NOT NULL,
-  prosthetic_id BIGINT UNSIGNED NOT NULL,
-  amount_hkd DECIMAL(10,2) NULL,
-  payment_status ENUM('pending','paid','failed','refunded') NOT NULL DEFAULT 'pending',
-  order_status ENUM('placed','modeling','printing','shipped','delivered','cancelled') NOT NULL DEFAULT 'placed',
-  placed_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  updated_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-  CONSTRAINT fk_orders_user FOREIGN KEY (user_id) REFERENCES users(id),
-  CONSTRAINT fk_orders_prosthetic FOREIGN KEY (prosthetic_id) REFERENCES prosthetics(id),
-  INDEX idx_orders_user_placed (user_id, placed_at)
-);
 
-CREATE TABLE IF NOT EXISTS deliveries (
-  id BIGINT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
-  order_id BIGINT UNSIGNED NOT NULL UNIQUE,
-  recipient_name VARCHAR(120) NOT NULL,
-  recipient_phone VARCHAR(30) NOT NULL,
-  address_line VARCHAR(255) NOT NULL,
-  region ENUM('Hong Kong Island','Kowloon','New Territories') NOT NULL,
-  district VARCHAR(100) NOT NULL,
-  delivery_note TEXT NULL,
-  tracking_number VARCHAR(100) NULL,
-  carrier VARCHAR(100) NULL,
-  delivery_status ENUM('pending','preparing','shipped','out_for_delivery','delivered') NOT NULL DEFAULT 'pending',
-  delivered_at DATETIME NULL,
-  updated_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-  CONSTRAINT fk_deliveries_order FOREIGN KEY (order_id) REFERENCES orders(id),
-  INDEX idx_deliveries_tracking (tracking_number)
-);
+CREATE TABLE rate_limits (
+	`key` VARCHAR(64) NOT NULL,
+	count INTEGER NOT NULL,
+	expires_at BIGINT NOT NULL,
+	PRIMARY KEY (`key`)
+)
 
-INSERT INTO color_templates (name, color_hex) VALUES
-  ('Satin Silver', '#AAB6B1'),
-  ('Deep Charcoal', '#34403B'),
-  ('Soft Sand', '#C7B397'),
-  ('Ocean Blue', '#547F90')
-ON DUPLICATE KEY UPDATE color_hex = VALUES(color_hex);
+;
+
+
+CREATE TABLE users (
+	id INTEGER NOT NULL AUTO_INCREMENT,
+	email VARCHAR(254) NOT NULL,
+	username VARCHAR(60) NOT NULL,
+	password_hash VARCHAR(255) NOT NULL,
+	full_name VARCHAR(120),
+	phone VARCHAR(40),
+	created_at VARCHAR(40),
+	PRIMARY KEY (id),
+	UNIQUE (email),
+	UNIQUE (username)
+)
+
+;
+
+
+CREATE TABLE sessions (
+	token_hash VARCHAR(64) NOT NULL,
+	user_id INTEGER,
+	`role` VARCHAR(15) NOT NULL,
+	expires_at BIGINT NOT NULL,
+	created_at VARCHAR(40),
+	PRIMARY KEY (token_hash),
+	FOREIGN KEY(user_id) REFERENCES users (id)
+)
+
+;
+
+
+CREATE TABLE uploads (
+	id VARCHAR(32) NOT NULL,
+	user_id INTEGER NOT NULL,
+	filename VARCHAR(180) NOT NULL,
+	content_type VARCHAR(80) NOT NULL,
+	byte_size BIGINT NOT NULL,
+	sha256 VARCHAR(64),
+	status VARCHAR(24),
+	created_at VARCHAR(40),
+	PRIMARY KEY (id),
+	FOREIGN KEY(user_id) REFERENCES users (id)
+)
+
+;
+
+
+CREATE TABLE submissions (
+	id VARCHAR(32) NOT NULL,
+	user_id INTEGER NOT NULL,
+	upload_id VARCHAR(32) NOT NULL,
+	template_id VARCHAR(20) NOT NULL,
+	color VARCHAR(40) NOT NULL,
+	material VARCHAR(40) NOT NULL,
+	inspiration TEXT,
+	inspiration_file VARCHAR(64),
+	status VARCHAR(32),
+	model_stage VARCHAR(32),
+	model_file VARCHAR(64),
+	model_filename VARCHAR(180),
+	quote_hkd NUMERIC(10, 2),
+	admin_note TEXT,
+	created_at VARCHAR(40),
+	updated_at VARCHAR(40),
+	PRIMARY KEY (id),
+	FOREIGN KEY(user_id) REFERENCES users (id),
+	UNIQUE (upload_id),
+	FOREIGN KEY(upload_id) REFERENCES uploads (id)
+)
+
+;
+
+
+CREATE TABLE modeling_events (
+	id VARCHAR(32) NOT NULL,
+	submission_id VARCHAR(32) NOT NULL,
+	status VARCHAR(32) NOT NULL,
+	stage VARCHAR(32) NOT NULL,
+	note TEXT,
+	actor VARCHAR(30),
+	created_at VARCHAR(40),
+	PRIMARY KEY (id),
+	FOREIGN KEY(submission_id) REFERENCES submissions (id)
+)
+
+;
+
+
+CREATE TABLE orders (
+	id VARCHAR(32) NOT NULL,
+	order_number VARCHAR(40) NOT NULL,
+	user_id INTEGER NOT NULL,
+	submission_id VARCHAR(32) NOT NULL,
+	amount_hkd NUMERIC(10, 2) NOT NULL,
+	payment_status VARCHAR(24),
+	order_status VARCHAR(24),
+	created_at VARCHAR(40),
+	updated_at VARCHAR(40),
+	PRIMARY KEY (id),
+	UNIQUE (order_number),
+	FOREIGN KEY(user_id) REFERENCES users (id),
+	UNIQUE (submission_id),
+	FOREIGN KEY(submission_id) REFERENCES submissions (id)
+)
+
+;
+
+
+CREATE TABLE deliveries (
+	id VARCHAR(32) NOT NULL,
+	order_id VARCHAR(32) NOT NULL,
+	recipient_name VARCHAR(120) NOT NULL,
+	recipient_phone VARCHAR(40) NOT NULL,
+	address_line VARCHAR(500) NOT NULL,
+	region VARCHAR(100) NOT NULL,
+	district VARCHAR(100) NOT NULL,
+	delivery_note TEXT,
+	carrier VARCHAR(100),
+	tracking_number VARCHAR(120),
+	delivery_status VARCHAR(24),
+	shipped_at VARCHAR(40),
+	delivered_at VARCHAR(40),
+	confirmed_at VARCHAR(40),
+	updated_at VARCHAR(40),
+	PRIMARY KEY (id),
+	UNIQUE (order_id),
+	FOREIGN KEY(order_id) REFERENCES orders (id)
+)
+
+;
+
+
+CREATE TABLE payments (
+	id VARCHAR(32) NOT NULL,
+	order_id VARCHAR(32) NOT NULL,
+	method VARCHAR(80) NOT NULL,
+	reference VARCHAR(120),
+	proof_file VARCHAR(64),
+	proof_filename VARCHAR(180),
+	status VARCHAR(24),
+	review_note TEXT,
+	created_at VARCHAR(40),
+	reviewed_at VARCHAR(40),
+	PRIMARY KEY (id),
+	FOREIGN KEY(order_id) REFERENCES orders (id)
+)
+
+;

@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0"><dict>
+  <key>Label</key><string>com.forme.cloud-bridge</string>
+  <key>ProgramArguments</key><array>
+    <string>/Volumes/extra/workspace1/projects/test4/forme-backend/.venv/bin/python</string>
+    <string>-m</string><string>forme_backend.cloud_bridge</string>
+  </array>
+  <key>WorkingDirectory</key><string>/Volumes/extra/workspace1/projects/test4/forme-backend</string>
+  <key>EnvironmentVariables</key><dict>
+    <key>FORME_CLOUD_CONFIG</key><string>/Volumes/extra/workspace1/projects/test4/forme-backend/.cloud-bridge.json</string>
+    <key>FORME_DATA_DIR</key><string>/Volumes/extra/workspace1/projects/test4/forme-backend/data</string>
+  </dict>
+  <key>RunAtLoad</key><true/>
+  <key>KeepAlive</key><true/>
+  <key>StandardOutPath</key><string>/Volumes/extra/workspace1/projects/test4/forme-backend/cloud-bridge.log</string>
+  <key>StandardErrorPath</key><string>/Volumes/extra/workspace1/projects/test4/forme-backend/cloud-bridge.log</string>
+</dict></plist>

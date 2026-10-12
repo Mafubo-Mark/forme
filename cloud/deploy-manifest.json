@@ -1,0 +1,9 @@
+{
+  "repository": "https://github.com/Mafubo-Mark/forme",
+  "base_commit": "81522d76856ddc6baeaf98ef68d3d063b9877063",
+  "date_hong_kong": "2026-10-12",
+  "target_site": "my-robot-home.com",
+  "database": "forme_production",
+  "service": "forme-cloud",
+  "api_port": "127.0.0.1:18086"
+}

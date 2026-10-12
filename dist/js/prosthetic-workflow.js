@@ -9,7 +9,7 @@
     uploaded: ['Received', '已收到'], validating: ['Checking video', '正在檢查影片'],
     needs_capture_review: ['Video review', '影片審核中'], accepted: ['Video approved', '影片已通過'],
     needs_recapture: ['New video needed', '需要重新拍攝'], rejected: ['Video not accepted', '影片未通過'],
-    validation_failed: ['Processing issue', '處理異常']
+    validation_failed: ['Processing issue', '處理異常'], modeling: ['Modeling', '建模中'], ready: ['Ready', '已完成']
   };
   const modelStages = {
     queued: ['Model queued', '模型排隊中'], extracting_frames: ['Selecting frames', '擷取畫格中'],
@@ -65,6 +65,12 @@
     note.className = 'workflow-note';
     note.textContent = t('The image shows your chosen style. Your custom model is still being prepared.', '圖片顯示所選樣式；你的專屬模型仍在準備中。');
     info.append(title, description, status, model, note);
+    const date = document.createElement('p'); date.textContent = item.created_at; info.append(date);
+    const history = document.createElement('details'); const summary = document.createElement('summary'); summary.textContent = t('Modeling history', '建模歷史'); history.append(summary);
+    for (const event of item.events || []) { const line=document.createElement('p'); line.textContent=`${event.created_at} · ${label(labels[event.status]) || event.status} · ${event.note || ''}`; history.append(line); } info.append(history);
+    if (item.model_url) { const file=document.createElement('a'); file.href=item.model_url; file.textContent=t('Download your model', '下載模型'); info.append(file); note.textContent=t('Your reviewed model is available to download.', '已審核模型可供下載。'); }
+    if(item.status === 'ready' && item.quote_hkd) { const order=document.createElement('a'); order.className='button button-dark'; order.href='checkout.html?design='+encodeURIComponent(item.id); order.textContent=t('Order · HK$ ', '下單 · HK$ ')+item.quote_hkd; info.append(order); }
+    if(item.admin_note) { const message=document.createElement('p'); message.textContent=item.admin_note; info.append(message); }
     card.append(image, info);
     return card;
   }

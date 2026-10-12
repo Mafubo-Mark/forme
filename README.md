@@ -1,25 +1,33 @@
-# Forme 用户前端
+# Forme 云端账号、设计与订单平台
 
-这是独立的用户静态站点。公开部署时只发布 `dist/`；操作后台、后端源码、视频、数据库和密钥留在本地电脑。
+基于 `Mafubo-Mark/forme` 的提交 `81522d76856ddc6baeaf98ef68d3d063b9877063` 扩展。
 
-完整架构、真实请求流程、后台工作流及后续实施路径见[前后端系统说明](docs/SYSTEM_ARCHITECTURE_ZH.md)。
+本次版本增加邮箱／账号注册登录、按用户持久保存设计、视频与建模历史、报价后下单、付款凭证及管理员审核、物流更新、确认收货，以及中文管理平台。云端服务是 `cloud/app.py`，公开站点仍为 `dist/`。数据库使用 MySQL，用户密码使用 scrypt 哈希，视频与凭证放私有目录。
 
-负责云端改造的同事请从[云端改造任务书](deploy/CLOUD_COLLEAGUE_HANDOFF_ZH.md)开始。
+生产目标为 `https://my-robot-home.com/`。管理页面是 `/admin`（亦可访问 `/admin.html`），使用 `forme` 与服务器私有配置中的强密码。管理员可从页面打开本机建模工作流；远程操作连接和密钥配置见 [远程管理说明](deploy/REMOTE_OPERATOR_ZH.md)。云端与本机任务领取、进度及候选产物回传见 [工作器连接说明](deploy/CLOUD_MAC_BRIDGE_ZH.md)。
 
-## 已实现
+本仓库的本地测试不代表生产服务器已升级；以生产 `/api/health` 的版本和 [远程管理验收步骤](deploy/REMOTE_OPERATOR_ZH.md) 为准。`docs/本次部署状态与数据库说明.md` 记录的是首次交付时的状态。旧 `deploy/README.md` 描述早期静态站点原型；当前云端客户服务独立运行，Mac 仅负责排队建模与远程操作。
 
-- 服务端共享密钥登录，登录后通过 HttpOnly Cookie 上传视频并查看自己的提交。
-- 七款现有保护套样式，可旋转的轻量 GLB 预览；保留四种预设颜色并增加自定义颜色。
-- 影片、样式、颜色、材料和灵感资料提交到真实 Forme 后端；页面显示实际工作流状态。
-- 英文与繁体中文切换，语言选择保存在浏览器。
-- 尚未接通的下单和配送页面明确显示“即将推出”，不会生成虚假的付款或送达记录。
+## 代码结构
 
-用户端调用同源的 `/api/customer/*` 和 `/api/uploads/*`。当前原型可用 SSH 反向隧道转发至本地后端，但 Mac 离线时服务中断；**正式目标是云端接收 API、数据库和视频存储持续可用，本机建模工作器可离线排队**。见[持续可用方案](deploy/ALWAYS_ON_ARCHITECTURE_ZH.md)；隧道仅按[联调交接文档](deploy/CLAUDE_DEPLOY.md)短期测试。
+- `dist/`：主页、邮箱登录／注册、设计向导、用户设计／订单／配送／账户、管理员页面和本地 3D 资源。
+- `cloud/app.py`：个人账户、会话、私有上传、建模事件、订单、付款审核和物流接口。
+- `cloud/deploy.py`：目标网站备份、独立数据库、后端服务、站点 Nginx 和每日备份的部署脚本；运行前需先为目标站点准备有效 HTTPS 证书，并检查服务器实际配置。
+- `cloud/backup.py`：MySQL 与私有资料备份，含 SHA-256 清单。备份包含连接配置，应保持私有。
+- `cloud/test_app.py`：业务全流程、用户隔离、Cookie 和恢复验证。
+- `database/schema.sql`：本次应用数据表 DDL 参考；实际初始化由 `app.py` 中 SQLAlchemy 元数据执行。
 
-3D 模板是样式预览，不是根据用户影片生成的适配模型；实际加工与贴合须经过后续建模和人工复核。预览使用本地打包的 [model-viewer](https://modelviewer.dev/) 4.3.1，不依赖运行时脚本 CDN。
+## 本地测试
 
-## 本地开发
+Python 3.11 或更新版本：
 
-本地后端仓库位于 `../forme-backend/`。运行该目录的 `./run-local.sh` 后，在 `http://127.0.0.1:8001/` 查看用户站点；操作后台位于单独的 `http://127.0.0.1:8001/operator/`。客户密钥保存在后端本机 `.customer-access-key`，不要提交到 GitHub。
+```sh
+python3 -m venv .venv
+.venv/bin/pip install -r cloud/requirements.txt
+.venv/bin/pip install httpx pytest
+.venv/bin/pytest -q cloud/test_app.py
+```
 
-只用 `python3 -m http.server` 打开 `dist/` 可查看静态页面，但需要同源 `/api` 代理才能完成登录和提交。
+服务器只发布 `dist/`；不要把 `cloud/`、私有数据库、上传文件、生产连接配置或备份包放进公开网站目录。
+
+原仓库不含自动视频重建／COLMAP／Blender 建模工作器。本版本完整持久保存提交、支持人工更新和上传实际模型；没有声称自动生成可打印、已适配的保护套。付款是凭证提交和人工审核，不是第三方自动扣款网关。

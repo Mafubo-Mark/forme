@@ -1,2 +1,4 @@
 .DS_Store
 .openai/
+__pycache__/
+.pytest_cache/
