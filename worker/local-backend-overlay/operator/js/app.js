@@ -278,22 +278,25 @@
         const ruler = hunyuan.rulerOnlyAssessment;
         hunyuanBox.append(makeText('p', `仅按视频中的 ${ruler.knownTargetLengthMm.toFixed(0)} mm 标定尺推算：${ruler.primaryMmPerColmapUnit.toFixed(3)} mm／COLMAP 单位；两套同视频重建比例相差 ${ruler.reconstructionScaleSpreadPercent.toFixed(3)}%。候选可见轴向跨度约 ${ruler.visibleAxialSpanMm.toFixed(1)} mm。比例差不是整体尺寸误差范围；点云局部形状和模板配准尚未验收。`, 'lab-warning'));
         hunyuanBox.append(makeText('p', '旧的“模板上口还差约 10.3 mm”比较使用了未对齐的截面，现已撤回。下一步按相同高度和方向比较点云候选与模板内腔。', 'lab-warning'));
-        if (hunyuan.pointcloudQa) {
-          const qa = hunyuan.pointcloudQa;
-          hunyuanBox.append(makeText('p', `点云检查：原视频和复用点云来源已核对；${qa.totalSections} 个轴向采样截面中 ${qa.fullyOccupiedSections} 个覆盖全部 24 个角度分箱。下部 ${qa.sparseLowerSections.join('、')} mm、上部 ${qa.sparseUpperSections.join('、')} mm 有明显缺角。表面贴合精度未验证。`, 'lab-warning'));
-          if (qa.imageConsistency) {
-            const check = qa.imageConsistency;
-            hunyuanBox.append(makeText('p', `原视频影像复核：已检查 ${check.frameCount} 个视角；其中 ${check.uprightFrameCount} 个直立视角的深色外壳近似轮廓重合度中位数为 ${check.uprightMedianSilhouetteIoU.toFixed(2)}。可见外轮廓基本一致；俯视内腔中心和两端点云不完整，不能用于判断保护套贴合间隙。`, 'lab-warning'));
-            const image = document.createElement('img');
-            image.src = check.contactSheetUrl;
-            image.alt = '原视频与点云投影对照：绿色为重合，橙色为画面独有，青色为点云独有';
-            hunyuanBox.append(image);
-          }
-        }
       } else if (hunyuan.templatePreflight?.status?.startsWith('SUPERSEDED')) {
         hunyuanBox.append(makeText('p', '旧模板缺口比较因截面未对齐已撤回。已改用视频中的 200 mm 标定尺推算候选毫米尺度；详情见交接包，待服务重启后显示完整标定报告。', 'lab-warning'));
       } else if (hunyuan.templatePreflight?.conditionalUpperWidthDeficitMm != null) {
         hunyuanBox.append(makeText('p', `模板条件筛查：若 120 mm 实测位置对应模板上口，在每侧 1.5 mm 净空、受限形变 ±3 mm 后，内宽仍差约 ${hunyuan.templatePreflight.conditionalUpperWidthDeficitMm.toFixed(1)} mm。需核对截面并重设上口。`, 'lab-warning'));
+      }
+      if (hunyuan.pointcloudQa) {
+        const qa = hunyuan.pointcloudQa;
+        const coverage = qa.totalSections
+          ? `${qa.totalSections} 个轴向采样截面中 ${qa.fullyOccupiedSections} 个覆盖全部 24 个角度分箱；下部 ${qa.sparseLowerSections.join('、') || '未列出'} mm、上部 ${qa.sparseUpperSections.join('、') || '未列出'} mm 需复核。`
+          : '主体裁剪和角度覆盖尚未复核。';
+        hunyuanBox.append(makeText('p', `点云检查：视频与点云来源${qa.provenanceVerified ? '已核对' : '未核对通过'}；${coverage}表面贴合精度未验证。`, 'lab-warning'));
+        if (qa.imageConsistency) {
+          const check = qa.imageConsistency;
+          hunyuanBox.append(makeText('p', `原视频影像复核：已检查 ${check.frameCount} 个视角；其中 ${check.uprightFrameCount} 个直立视角的深色外壳近似轮廓重合度中位数为 ${check.uprightMedianSilhouetteIoU.toFixed(2)}。可见外轮廓基本一致；俯视内腔中心和两端点云不完整，不能用于判断保护套贴合间隙。`, 'lab-warning'));
+          const image = document.createElement('img');
+          image.src = check.contactSheetUrl;
+          image.alt = '原视频与点云投影对照：绿色为重合，橙色为画面独有，青色为点云独有';
+          hunyuanBox.append(image);
+        }
       }
       if (hunyuan.workbuddyHybrid) {
         const hybrid = hunyuan.workbuddyHybrid;

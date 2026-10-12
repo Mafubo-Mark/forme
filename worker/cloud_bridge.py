@@ -141,9 +141,13 @@ class CloudBridge:
             return
         sha = self.file_hash(artifact)
         if sha != remote_artifact_sha:
+            report = json.loads((artifact.parent / "build_report.json").read_text(encoding="utf-8"))
+            replay = report.get("sourceMode") == "HISTORICAL_SAME_CAPTURE_REPLAY_FOR_BRIDGE_VALIDATION"
             self.request("PUT", f"/api/worker/jobs/{sid}/artifact", file=artifact, sha256=sha)
             self.request("POST", f"/api/worker/jobs/{sid}/progress",
-                         {"status": "modeling", "stage": "modeling", "note": "数字试样候选已回传，等待切片与人工审查；尚未验证佩戴适配。"})
+                         {"status": "modeling", "stage": "modeling", "note": (
+                             "同一拍摄素材的历史数字试样已回传，仅验证云端文件链路；当前新点云和混元白模未重新拟合此保护套，禁止客户发布。"
+                             if replay else "数字试样候选已回传，等待切片与人工审查；尚未验证佩戴适配。")})
 
     def cycle(self) -> None:
         existing = self.request("GET", "/api/worker/jobs")["items"]
