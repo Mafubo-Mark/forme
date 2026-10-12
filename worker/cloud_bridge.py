@@ -34,7 +34,8 @@ class CloudBridge:
 
     def request(self, method: str, path: str, payload: dict | None = None, *, job_token: str | None = None,
                 file: Path | None = None, sha256: str | None = None) -> dict:
-        headers = {"Authorization": "Bearer " + self.key}
+        headers = {"Authorization": "Bearer " + self.key,
+                   "User-Agent": "FormeMacBridge/1.0"}
         if job_token:
             headers["X-Job-Token"] = job_token
         data = None
@@ -56,7 +57,8 @@ class CloudBridge:
             return target
         temporary = target.with_suffix(".video.part")
         req = urllib.request.Request(self.base + "/api/worker/jobs/" + job["submissionId"] + "/video",
-                                     headers={"Authorization": "Bearer " + self.key})
+                                     headers={"Authorization": "Bearer " + self.key,
+                                              "User-Agent": "FormeMacBridge/1.0"})
         digest = hashlib.sha256()
         count = 0
         try:
@@ -162,6 +164,13 @@ def main() -> None:
     args = parser.parse_args()
     # Settings requires a local API token; the bridge never sends or uses it.
     os.environ.setdefault("FORME_DEV_TOKEN", secrets.token_hex(24))
+    # The bridge validates newly imported media synchronously, so it needs the
+    # same bundled FFmpeg tools as run-local.sh even when launched by launchd.
+    tools_dir = Path("/Volumes/extra/workspace1/colmap-metal/.pixi/envs/default/bin")
+    for variable, name in (("FORME_FFPROBE", "ffprobe"), ("FORME_FFMPEG", "ffmpeg")):
+        binary = tools_dir / name
+        if variable not in os.environ and binary.is_file() and os.access(binary, os.X_OK):
+            os.environ[variable] = str(binary)
     settings = Settings.from_env()
     config_path = os.environ.get("FORME_CLOUD_CONFIG")
     private = {}
