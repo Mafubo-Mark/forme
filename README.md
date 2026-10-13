@@ -6,6 +6,8 @@
 
 当前演示站为 `https://forme.agents-time.com/`。管理页面是 `/admin`（亦可访问 `/admin.html`），使用 `forme` 与服务器私有配置中的强密码。管理员可从页面打开本机建模工作流；本次实际结果见 [云站与 Mac 验收记录](deploy/LIVE_ACCEPTANCE_2026-10-13_ZH.md)，初次配对步骤见 [Claude Code 接通清单](deploy/CLAUDE_CONNECT_AGENTS_TIME_ZH.md)。通用的远程操作与任务桥接说明分别见 [远程管理说明](deploy/REMOTE_OPERATOR_ZH.md) 和 [工作器连接说明](deploy/CLOUD_MAC_BRIDGE_ZH.md)。
 
+Mac 后台现可双击一键启动，候选交付以 STL 为主。启动方法、文件清单与质量边界见 [Mac 一键启动与 STL 说明](worker/local-backend-overlay/ONE_CLICK_STL_ZH.md)；`worker/local-backend-overlay/` 仅包含需合并进本机后台的增量文件。
+
 本仓库的本地测试不代表生产服务器已升级；以生产 `/api/health` 的版本和 [远程管理验收步骤](deploy/REMOTE_OPERATOR_ZH.md) 为准。`docs/本次部署状态与数据库说明.md` 记录的是首次交付时的状态。旧 `deploy/README.md` 描述早期静态站点原型；当前云端客户服务独立运行，Mac 仅负责排队建模与远程操作。
 
 ## 代码结构

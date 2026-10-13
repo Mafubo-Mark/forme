@@ -47,6 +47,65 @@
     return data;
   }
 
+  async function downloadCloudModelInParts(path, button, status) {
+    button.disabled = true;
+    const chunks = [];
+    const chunkSize = 1024 * 1024;
+    let offset = 0;
+    let total = null;
+    let filename = 'forme-model.stl';
+    try {
+      while (total === null || offset < total) {
+        const end = offset + chunkSize - 1;
+        let received;
+        for (let attempt = 0; attempt < 3; attempt++) {
+          const controller = new AbortController();
+          const timeout = setTimeout(() => controller.abort(), 20000);
+          try {
+            const response = await fetch(path, { headers: { Range: `bytes=${offset}-${end}` }, cache: 'no-store', credentials: 'same-origin', signal: controller.signal });
+            const range = /^bytes (\d+)-(\d+)\/(\d+)$/.exec(response.headers.get('Content-Range') || '');
+            if (response.status !== 206 || !range || Number(range[1]) !== offset) throw new Error(`云端分段响应无效：HTTP ${response.status}`);
+            const size = Number(range[3]);
+            if (!Number.isSafeInteger(size) || size <= 0 || size > 100 * 1024 * 1024 || (total !== null && total !== size)) throw new Error('云端文件大小无效。');
+            const chunk = await response.arrayBuffer();
+            if (chunk.byteLength !== Number(range[2]) - offset + 1) throw new Error('云端文件片段不完整。');
+            received = { response, chunk, size };
+            break;
+          } catch (error) {
+            if (attempt === 2) throw error;
+            status.textContent = `第 ${Math.floor(offset / chunkSize) + 1} 段连接中断，重试 ${attempt + 1}/2…`;
+          } finally {
+            clearTimeout(timeout);
+          }
+        }
+        total = received.size;
+        if (offset === 0) {
+          const disposition = received.response.headers.get('Content-Disposition') || '';
+          const match = /filename="?([^";]+)"?/i.exec(disposition);
+          if (match) filename = match[1];
+        }
+        chunks.push(received.chunk);
+        offset += received.chunk.byteLength;
+        status.textContent = `已接收 ${(offset / 1048576).toFixed(1)} / ${(total / 1048576).toFixed(1)} MB`;
+      }
+      if (!filename.toLowerCase().endsWith('.stl')) throw new Error('云端归档尚未同步为 STL。');
+      const blob = new Blob(chunks, { type: 'model/stl' });
+      const url = URL.createObjectURL(blob);
+      const link = document.createElement('a');
+      link.href = url;
+      link.download = filename;
+      document.body.append(link);
+      link.click();
+      link.remove();
+      setTimeout(() => URL.revokeObjectURL(url), 60000);
+      status.textContent = `下载完成：${filename}（${(total / 1048576).toFixed(1)} MB）`;
+    } catch (error) {
+      status.textContent = error.message || '分段下载失败。';
+    } finally {
+      button.disabled = false;
+    }
+  }
+
   function showError(error) {
     if (error.status === 401) {
       $('#connection-state').textContent = '令牌无效';
@@ -357,15 +416,29 @@
     if (data.productionFlow?.trialCandidate) {
       const trial = data.productionFlow.trialCandidate;
       flowHost.append(makeText('p', `已登记 ${trial.candidateId} 数字试样；所需成型高度约 ${trial.requiredBuildHeightMm} mm。仍须在目标打印机切片软件中核对。`, 'lab-warning'));
-      const packageLink = document.createElement('a');
-      packageLink.href = trial.packageUrl;
-      packageLink.textContent = '下载本机候选双片 3MF（毫米，待切片验证）';
-      flowHost.append(packageLink);
+      for (const [url, label] of [
+        [trial.stlUrl, '下载双片组合 STL（毫米，需在切片软件中分件和摆放）'],
+        [trial.frontStlUrl, '下载前片 STL（毫米）'],
+        [trial.rearStlUrl, '下载后片 STL（毫米）'],
+        [trial.packageUrl, '下载辅助 3MF（毫米，待切片验证）']
+      ]) {
+        if (!url) continue;
+        const link = document.createElement('a');
+        link.href = url;
+        link.textContent = label;
+        flowHost.append(link);
+      }
       if (cloudHosted) {
         const cloudLink = document.createElement('a');
         cloudLink.href = `/api/admin/submissions/${encodeURIComponent(state.submissionId)}/files/model`;
-        cloudLink.textContent = '下载云端归档 3MF（已同步时可用）';
+        cloudLink.textContent = '下载云端归档模型（同步后为 STL）';
         flowHost.append(cloudLink);
+        const chunkButton = document.createElement('button');
+        chunkButton.type = 'button';
+        chunkButton.textContent = '分段下载云端 STL（大文件）';
+        const chunkStatus = makeText('p', '', 'lab-warning');
+        chunkButton.addEventListener('click', () => downloadCloudModelInParts(cloudLink.href, chunkButton, chunkStatus));
+        flowHost.append(chunkButton, chunkStatus);
       }
     }
     const flowStages = Object.fromEntries((data.productionFlow?.stages || []).map(step => [step.id, step]));
