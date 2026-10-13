@@ -1,0 +1,23 @@
+# 云站与 Mac 实际验收记录（2026-10-13）
+
+云站：`https://forme.agents-time.com`。演示任务：`d4ca3886da744c19a2adaa212bcfb9d4`。Mac 本机后端目录为 `/Volumes/extra/workspace1/projects/test4/forme-backend`。本记录不包含密码或令牌。
+
+## 已通过
+
+- 云站 `/api/health` 返回 200；Mac `/health` 返回 200；通过 SSH 进入服务器后访问 `127.0.0.1:18001/health` 返回 200。公网不需要开放 18001。
+- 云端客户可登录、上传视频、提交与查询任务。演示 4K 压缩视频为 73,998,068 字节，云端与 Mac SHA-256 均为 `cb0c4500ab134695c2084f0749c48e87d35463bbe811262e2d10c6c1af211b57`。
+- Mac 完成视频质检和六视角人工确认。本次混元 3D 白模已归档；本次 COLMAP 稠密点云为 1,391,428 点，原始点云与视频来源哈希一致。200 mm 标尺计算出候选全局比例 144.5235835 mm／COLMAP 单位。
+- 模板 01 工作包已记录本次点云和混元白模。`/admin` 经 SSH 反向隧道打开 Mac 操作面板，可查看任务视频、选择、白模、点云及生产阶段。
+- 管理员可下载回传的 3MF；本机与云端工作器记录的 SHA-256 都是 `cf40678c5c1247a9cf0763264ed6e10fe82d65c519d691ffdc8aeb8c108d6faa`。3MF 包内单位是毫米。
+- 客户任务保持 `modeling`，客户接口的 `model_url` 为 `null`；未授权访问 Mac 的 3MF 接口返回 401。
+- 演练断开 SSH 子连接后，新的隧道守护脚本自动重连，再次从服务器成功访问 Mac `/health`。仅检查 SSH 进程存活不足以发现服务器端反向监听丢失，所以守护脚本会定期探测服务器的 18001 端口。
+
+## 当前门禁
+
+本次回传的 `replay-same-video-v1` 是**同一拍摄素材的历史数字试样复用**，用于验证文件链路，未用本次新点云或本次混元白模重新拟合。云端建模历史与 Mac 面板均有这一来源提示，禁止将其设为客户 `ready`。本次工作流中标尺与点云仍为 `review`，模板配准为 `waiting`，候选质量及切片为 `review`，`manufacturingApproved=false`。主体裁剪、局部表面、上口净空、固定件、目标切片软件和实物适配尚未验收。
+
+## 运行与恢复
+
+- Mac 本机：启动 API／工作器、云桥接与 SSH 隧道。当前 Mac 的 `start-tunnel.command` 带服务器端健康探测与自动重连；仓库中的通用 `deploy/connect-local-backend.sh user@server` 也已增加同样机制。
+- 云服务器：保持 Web/API、数据库、上传目录和管理员配置常驻。Mac 断线时，客户登录、上传和查进度仍应由云服务器提供；建模排队等待 Mac 恢复。
+- 若 `/admin` 显示 Mac 离线，先在服务器检查 `curl http://127.0.0.1:18001/health`，再看 Mac API、隧道进程与守护脚本日志。管理员会话过期会返回 `ADMIN_SESSION_REQUIRED`，需要在 `/admin` 重新登录；这与隧道健康是两回事。
