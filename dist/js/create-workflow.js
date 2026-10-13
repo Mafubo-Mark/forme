@@ -3,7 +3,7 @@
   const $ = selector => document.querySelector(selector);
   const $$ = selector => [...document.querySelectorAll(selector)];
   const t = (en, zh) => window.FormeI18n?.locale === 'zh-Hant' ? zh : en;
-  const draft = { uploadId: null, submissionId: null, templateId: '01', color: 'Satin Silver', material: 'Lightweight Polymer' };
+  const draft = { uploadId: null, submissionId: null, templateId: '01', color: 'Satin Silver', material: 'PLA' };
   const styles = {
     '01': ['祥云', 'Auspicious Cloud'], '02': ['蜂巢', 'Honeycomb'], '03': ['流线', 'Streamline'],
     '04': ['竹影', 'Bamboo Shadow'], '05': ['鳞羽', 'Scale Feather'], '06': ['通风', 'Ventilated'],

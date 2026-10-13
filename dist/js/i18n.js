@@ -43,6 +43,13 @@
     ['Custom color','自訂顏色'],['YOUR INSPIRATION','你的靈感'],['OPTIONAL','選填'],['Describe the finish you imagine','描述你想要的外觀'],
     ['＋ Add an inspiration image','＋ 上傳靈感圖片'],['04 / MATERIAL','04 / 材料'],['Choose your material.','選擇材料。'],
     ['Each option has a distinct feel. Final material availability and pricing will be confirmed after design review.','每種材料各有不同質感；最終供應情況和價格會在設計審核後確認。'],
+    ['Choose PLA or ABS for 3D printing. Our team will confirm print settings and suitability after design review.','選擇 PLA 或 ABS 作為 3D 打印材料。團隊會在設計審核後確認打印設定與適用性。'],
+    ['Easy to print · suitable for prototype trials','容易打印 · 適合原型試樣'],
+    ['Higher heat resistance · requires controlled printing conditions','耐熱性較高 · 需要控制打印環境'],
+    ['Attach the scale before recording','拍攝前請貼好標尺'],
+    ['Download the 200 mm ruler, print on A4 at 100% actual size (do not fit to page), and check the 0–200 mm distance with a physical ruler. Cut out the strip and fix it flat beside the prosthesis without moving it during recording. Keep both endpoints visible in several clear views; do not wrap or bend the ruler around the socket.','下載 200 mm 標尺，以 A4、100% 原尺寸打印（不要縮放至頁面），並用實體尺核對 0–200 mm 的距離。剪下標尺，平直固定在義肢旁，拍攝期間不要移動。請在多個清晰視角中拍到兩端；不要將標尺彎折或環繞接收腔。'],
+    ['Download 200 mm ruler (A4 PDF)','下載 200 mm 標尺（A4 PDF）'],
+    ['Print and verify the ruler before recording your video.','請先打印並核對標尺，再拍攝影片。'],
     ['Lightweight Polymer','輕量聚合物'],['Comfortable for everyday wear · smooth finish','適合日常使用 · 表面平滑'],
     ['Durable Nylon','耐用尼龍'],['Flexible strength · fine surface texture','有彈性且堅韌 · 細緻紋理'],
     ['Premium Resin','精細樹脂'],['High detail · refined appearance','細節豐富 · 外觀精緻'],
@@ -64,7 +71,7 @@
       const nodes = [];
       while (walker.nextNode()) nodes.push(walker.currentNode);
       for (const node of nodes) {
-        if (node.parentElement?.closest('script,style')) continue;
+        if (node.parentElement?.closest('script,style,[data-i18n-skip]')) continue;
         const trimmed = node.nodeValue.trim();
         const normalized = trimmed.replace(/\s+/g, ' ');
         if (translations[normalized]) node.nodeValue = node.nodeValue.replace(trimmed, translations[normalized]);

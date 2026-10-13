@@ -367,7 +367,7 @@ async def submit(request:Request,s:DBSession=Depends(db)):
     upload=owned(s,Upload,text_field(d,'upload_id',32),user)
     if upload.status!='complete': fail('UPLOAD_INCOMPLETE')
     template=text_field(d,'template_id',20); color=text_field(d,'color',40); material=text_field(d,'material',40)
-    if template not in TEMPLATES or material not in ('Lightweight Polymer','Durable Nylon','Premium Resin'): fail('INVALID_DESIGN')
+    if template not in TEMPLATES or material not in ('PLA','ABS','Lightweight Polymer','Durable Nylon','Premium Resin'): fail('INVALID_DESIGN')
     if color not in ('Satin Silver','Deep Charcoal','Soft Sand','Ocean Blue') and not re.fullmatch(r'#[a-fA-F0-9]{6}',color): fail('INVALID_COLOR')
     existing=s.scalar(select(Submission).where(Submission.upload_id==upload.id))
     if existing: return {'submissionId':existing.id}

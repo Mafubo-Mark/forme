@@ -1,4 +1,5 @@
 import os, tempfile, pathlib, sys
+import pytest
 os.environ['FORME_DATABASE_URL']='sqlite:///' + tempfile.mktemp(suffix='.db')
 os.environ['FORME_DATA_DIR']=tempfile.mkdtemp()
 os.environ['FORME_SECURE_COOKIE']='0'
@@ -6,6 +7,26 @@ os.environ['FORME_ADMIN_PASSWORD']='123456'
 sys.path.insert(0,str(pathlib.Path(__file__).parent))
 import app
 from fastapi.testclient import TestClient
+
+@pytest.mark.parametrize('material', ['PLA', 'ABS'])
+def test_print_material_survives_customer_submission(material, monkeypatch, tmp_path):
+    engine=app.create_engine('sqlite:///'+str(tmp_path/'materials.sqlite3'),connect_args={'check_same_thread':False})
+    app.Base.metadata.create_all(engine)
+    monkeypatch.setattr(app,'Factory',app.sessionmaker(bind=engine,expire_on_commit=False))
+    client=TestClient(app.app)
+    user='print_'+material.lower()
+    assert client.post('/api/customer/register',json=dict(email=user+'@example.test',username=user,password='Password123!')).status_code==200
+    video=b'\x00\x00\x00\x18ftypmp42'+b'0'*100
+    upload=client.post('/api/uploads/init',json=dict(filename='material.mp4',content_type='video/mp4',byte_size=len(video))).json()
+    assert client.put(upload['uploadUrl'],content=video).status_code==200
+    assert client.post('/api/uploads/'+upload['uploadId']+'/complete').status_code==200
+    payload=dict(upload_id=upload['uploadId'],template_id='01',color='Ocean Blue',material=material,inspiration='')
+    assert client.post('/api/customer/submissions',json={**payload,'material':'unknown'}).status_code==400
+    result=client.post('/api/customer/submissions',json=payload)
+    assert result.status_code==200,result.text
+    saved=client.get('/api/customer/submissions/'+result.json()['submissionId']).json()
+    assert saved['material']==material
+    engine.dispose()
 
 def test_remote_operator_requires_admin_and_keeps_local_token_server_side(monkeypatch):
     import httpx

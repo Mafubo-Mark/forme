@@ -412,7 +412,7 @@ def create_app(settings: Settings | None = None) -> FastAPI:
     def create_submission(payload: SubmissionCreate, tasks: BackgroundTasks, session_id: str = Depends(customer_session)) -> dict:
         if payload.color not in {"Satin Silver", "Deep Charcoal", "Soft Sand", "Ocean Blue"} and re.fullmatch(r"#[0-9a-fA-F]{6}", payload.color) is None:
             raise HTTPException(422, detail={"code": "INVALID_COLOR"})
-        if payload.material not in {"Lightweight Polymer", "Durable Nylon", "Premium Resin"}:
+        if payload.material not in {"PLA", "ABS", "Lightweight Polymer", "Durable Nylon", "Premium Resin"}:
             raise HTTPException(422, detail={"code": "INVALID_MATERIAL"})
         if payload.template_id not in {"01", "02", "03", "04", "05", "06", "05-magnetic"}:
             raise HTTPException(422, detail={"code": "INVALID_TEMPLATE"})
