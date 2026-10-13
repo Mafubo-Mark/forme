@@ -359,8 +359,14 @@
       flowHost.append(makeText('p', `已登记 ${trial.candidateId} 数字试样；所需成型高度约 ${trial.requiredBuildHeightMm} mm。仍须在目标打印机切片软件中核对。`, 'lab-warning'));
       const packageLink = document.createElement('a');
       packageLink.href = trial.packageUrl;
-      packageLink.textContent = '下载候选双片 3MF（毫米，待切片验证）';
+      packageLink.textContent = '下载本机候选双片 3MF（毫米，待切片验证）';
       flowHost.append(packageLink);
+      if (cloudHosted) {
+        const cloudLink = document.createElement('a');
+        cloudLink.href = `/api/admin/submissions/${encodeURIComponent(state.submissionId)}/files/model`;
+        cloudLink.textContent = '下载云端归档 3MF（已同步时可用）';
+        flowHost.append(cloudLink);
+      }
     }
     const flowStages = Object.fromEntries((data.productionFlow?.stages || []).map(step => [step.id, step]));
     $('#prepare-hunyuan').disabled = flowStages.views?.state !== 'done' || flowStages.hunyuan_input?.state === 'done' || !!data.hunyuanJob;
