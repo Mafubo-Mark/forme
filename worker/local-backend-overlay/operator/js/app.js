@@ -30,6 +30,43 @@
     return value;
   }
 
+  const images = new OperatorMediaLoader({ headers: () => cloudHosted ? {} : { Authorization: `Bearer ${token()}` } });
+  function setImage(image, path) {
+    image.setAttribute('aria-busy', 'true');
+    image.dataset.imageState = 'loading';
+    const hint = makeText('p', '图片加载中…', 'lab-muted');
+    const load = () => {
+      hint.textContent = '图片加载中…';
+      images.get(path).then(url => {
+        if (!image.isConnected) return;
+        image.src = url;
+        image.dataset.imageState = 'ready';
+        image.setAttribute('aria-busy', 'false');
+        hint.remove();
+      }).catch(error => {
+        if (!image.isConnected || error.message === 'STALE_IMAGE') return;
+        image.dataset.imageState = 'error';
+        image.setAttribute('aria-busy', 'false');
+        const expired = error.status === 401;
+        hint.textContent = expired
+          ? (cloudHosted ? '管理员登录已过期，请重新登录后再试。' : '本机连接已失效，请重新连接。')
+          : `图片读取失败（${error.name === 'AbortError' ? '连接超时' : error.message}）。`;
+        const retry = makeText('button', '重试此图');
+        retry.type = 'button';
+        retry.addEventListener('click', load);
+        hint.append(' ', retry);
+        if (expired && cloudHosted) {
+          const login = makeText('a', '打开管理员登录');
+          login.href = '/admin.html';
+          login.target = '_blank';
+          login.rel = 'noopener';
+          hint.append(' ', login);
+        }
+      });
+    };
+    queueMicrotask(() => { if (image.isConnected) { image.after(hint); load(); } });
+  }
+
   async function api(path, options = {}) {
     const { quiet = false, ...requestOptions } = options;
     const headers = { ...(cloudHosted ? {} : { Authorization: `Bearer ${token()}` }), ...(requestOptions.headers || {}) };
@@ -256,7 +293,7 @@
       imageBox.className = 'lab-resource';
       imageBox.append(makeText('h3', '灵感图片'), makeText('p', data.resources.inspirationImage.filename));
       const image = document.createElement('img');
-      image.src = data.resources.inspirationImage.url;
+      setImage(image, data.resources.inspirationImage.url);
       image.alt = `用户上传的灵感图片：${data.resources.inspirationImage.filename}`;
       imageBox.append(image);
       host.append(imageBox);
@@ -313,7 +350,7 @@
       hunyuanBox.append(makeText('p', '提交了正面、左侧、右侧、背面；上口和螺栓图留作结果核对。生成模型尚未确认毫米尺度、局部形状与保护套贴合。', 'lab-warning'));
       if (hunyuan.previewUrl) {
         const preview = document.createElement('img');
-        preview.src = hunyuan.previewUrl;
+        setImage(preview, hunyuan.previewUrl);
         preview.alt = '混元 3D 白模生成预览';
         hunyuanBox.append(preview);
       }
@@ -328,7 +365,7 @@
         hunyuanBox.append(makeText('p', `新混元模型与标定点云做了探索性对齐：白筒区域点云到模型的中位距离 ${alignment.whiteMedianMm.toFixed(1)} mm，上部黑壳 ${alignment.blackMedianMm.toFixed(1)} mm。这些数值反映模型差异，不是保护套间隙。`, 'lab-warning'));
         for (const [url, label] of [[alignment.frontOverlayUrl, '正面点云与模型叠图'], [alignment.sideOverlayUrl, '侧面点云与模型叠图']]) {
           const image = document.createElement('img');
-          image.src = url;
+          setImage(image, url);
           image.alt = label;
           hunyuanBox.append(image);
         }
@@ -352,7 +389,7 @@
           const check = qa.imageConsistency;
           hunyuanBox.append(makeText('p', `原视频影像复核：已检查 ${check.frameCount} 个视角；其中 ${check.uprightFrameCount} 个直立视角的深色外壳近似轮廓重合度中位数为 ${check.uprightMedianSilhouetteIoU.toFixed(2)}。可见外轮廓基本一致；俯视内腔中心和两端点云不完整，不能用于判断保护套贴合间隙。`, 'lab-warning'));
           const image = document.createElement('img');
-          image.src = check.contactSheetUrl;
+          setImage(image, check.contactSheetUrl);
           image.alt = '原视频与点云投影对照：绿色为重合，橙色为画面独有，青色为点云独有';
           hunyuanBox.append(image);
         }
@@ -365,7 +402,7 @@
           : `WorkBuddy 已生成前后双片审查模型。以标尺点云的可见外轮廓定形，并用混元模型核对上口；因两者在上口冲突，混元几何没有融入外壳。90–280 mm 点云段的正视轮廓重合度约 ${hybrid.trustedBandSilhouetteIoU.toFixed(2)}；这是同源数据的轮廓检查，不代表内腔间隙或实物贴合。`, 'lab-warning'));
         for (const [url, label] of [[hybrid.frontPreviewUrl, 'WorkBuddy 正面预览'], [hybrid.sidePreviewUrl, 'WorkBuddy 侧面预览'], [hybrid.topPreviewUrl, 'WorkBuddy 上口预览'], [hybrid.overlayUrl, 'WorkBuddy 点云叠图']]) {
           const preview = document.createElement('img');
-          preview.src = url;
+          setImage(preview, url);
           preview.alt = label;
           hunyuanBox.append(preview);
         }
@@ -392,7 +429,7 @@
         for (const [url, label] of [[concept.frontPreviewUrl, '正面造型预览'], [concept.threeQuarterPreviewUrl, '斜侧造型预览']]) {
           if (!url) continue;
           const preview = document.createElement('img');
-          preview.src = url;
+          setImage(preview, url);
           preview.alt = label;
           hunyuanBox.append(preview);
         }
@@ -501,7 +538,7 @@
     for (const frame of frames) {
       const figure = document.createElement('figure');
       const img = document.createElement('img');
-      img.src = `/api/internal/submissions/${state.submissionId}/views/frames/${frame.name}`;
+      setImage(img, `/api/internal/submissions/${state.submissionId}/views/frames/${frame.name}`);
       img.alt = `${frame.name} 候选帧`;
       const caption = makeText('figcaption', `${frame.name} · ${frame.timestampSeconds}s · ${viewSlots[frame.label] || '未判断'}${frame.confidence == null ? '' : ` (${Math.round(frame.confidence * 100)}%)`} · 画质参考 ${frame.quality?.score == null ? '未计算' : Math.round(frame.quality.score * 100)}`);
       figure.append(img, caption, makeText('p', frame.reason || '', 'lab-view-reason'));
@@ -542,6 +579,8 @@
       $('#ruler-mark-list').replaceChildren();
     }
     const data = await api(`/api/internal/submissions/${submissionId}`);
+    images.clear();
+    state.frameKey = null;
     state.submissionId = submissionId;
     renderSubmission(data);
     await selectUpload(data.uploadId, true);
@@ -589,18 +628,11 @@
       $('#review-frames').append(empty);
       return;
     }
-    const responses = await Promise.all(names.map(name => fetch(
-      `/api/uploads/${upload.uploadId}/review-frames/${name}`,
-      { headers: cloudHosted ? {} : { Authorization: `Bearer ${token()}` }, cache: 'no-store' }
-    )));
-    if (responses.some(response => !response.ok)) throw new Error('复核帧读取失败，请检查令牌和任务状态。');
     const host = $('#review-frames');
-    for (const [index, response] of responses.entries()) {
-      const url = URL.createObjectURL(await response.blob());
-      state.frameUrls.push(url);
+    for (const [index, name] of names.entries()) {
       const figure = document.createElement('figure');
       const img = document.createElement('img');
-      img.src = url;
+      setImage(img, `/api/uploads/${upload.uploadId}/review-frames/${name}`);
       img.alt = `视频复核帧 ${index + 1}`;
       const caption = document.createElement('figcaption');
       caption.textContent = `帧 ${String(index + 1).padStart(2, '0')}`;
@@ -649,6 +681,7 @@
 
   async function selectUpload(uploadId, keepSubmission = false) {
     if (!keepSubmission) {
+      images.clear();
       state.submissionId = null;
       state.modelNextAction = null;
       state.modelActive = false;
@@ -818,7 +851,7 @@
     $('#ruler-marker-b').style.display = 'none';
     const image = $('#ruler-frame-image');
     image.hidden = !name;
-    if (name) image.src = `/api/internal/submissions/${state.submissionId}/ruler/frames/${name}`;
+    if (name) setImage(image, `/api/internal/submissions/${state.submissionId}/ruler/frames/${name}`);
     $('#ruler-click-state').textContent = state.rulerMarks.has(name) ? `${name} 已标注，重新点击可覆盖。` : `${name}：请先点击 A，再点击 B。`;
   });
   onClick('#suggest-ruler-marks', async () => {
@@ -914,5 +947,5 @@
       .then(() => { setConnected(); pollCurrent().catch(() => {}); })
       .catch(showError);
   }
-  window.addEventListener('beforeunload', clearFrames);
+  window.addEventListener('beforeunload', () => { clearFrames(); images.clear(); });
 })();

@@ -1,0 +1,165 @@
+<!doctype html>
+<html lang="zh-Hans">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Forme 本地后端工作流测试操作面板">
+  <title>后端测试面板 — Forme</title>
+  <link rel="stylesheet" href="/css/style.css">
+  <link rel="stylesheet" href="css/app.css">
+  <script src="js/media-loader.js" defer></script>
+  <script src="js/app.js" defer></script>
+</head>
+<body>
+  <header class="site-header">
+    <span class="wordmark">forme<span class="wordmark-dot">.</span> <small>operator</small></span>
+    <span class="lab-badge">LOCAL TEST</span>
+
+  </header>
+
+  <main class="app-main lab-main">
+    <div class="page-heading lab-heading">
+      <p class="eyebrow">FORME / WORKFLOW LAB</p>
+      <h1>后端测试面板<span class="heading-period">.</span></h1>
+      <p>独立操作后台：查看前端任务、运行质检、检查建模进度并确认多视角图片。</p>
+    </div>
+
+    <div class="lab-banner" role="note">
+      <span class="lab-banner-icon" aria-hidden="true">i</span>
+      <div><strong>当前能力边界</strong><p>可质检视频、抽取多视角候选帧、调用视觉 API，并运行 COLMAP 参考重建。本次测试任务已有混元 3D 白模和标尺推算的祥云造型候选；详情中可查看预览和 GLB。保护套贴合、固定件与可制造性尚未验收。</p></div>
+    </div>
+
+    <section class="lab-grid" aria-label="测试工作区">
+      <div class="lab-column">
+        <section class="lab-card" aria-labelledby="connection-title">
+          <div class="lab-card-head"><span class="lab-index">01 / CONNECT</span><span id="connection-state" class="lab-state">未连接</span></div>
+          <h2 id="connection-title">连接本地后端</h2>
+          <p>使用启动服务时设置的开发令牌。令牌仅保留在本页内存中，刷新后需重新填写。</p>
+          <p id="worker-state" class="lab-muted">工作器状态将在连接后显示。</p>
+          <div class="lab-inline">
+            <label class="lab-field lab-grow" for="dev-token"><span>开发 Bearer token</span><input id="dev-token" type="password" autocomplete="off" spellcheck="false" placeholder="粘贴 FORME_DEV_TOKEN"></label>
+            <button id="connect-button" class="button button-dark" type="button">连接</button>
+          </div>
+        </section>
+
+        <section class="lab-card" aria-labelledby="upload-title">
+          <div class="lab-card-head"><span class="lab-index">02 / CAPTURE</span><span>MP4 · MOV · WebM</span></div>
+          <h2 id="upload-title">上传视频</h2>
+          <p>请使用带 200 mm 标靶的视频，拍到正面、背面、左右侧、上口俯视和螺栓侧特写。项目现有约 139.5 MB 的 MOV 可用于本地验证。</p>
+          <label class="lab-drop" for="video-file"><span class="upload-icon">↑</span><strong id="file-label">选择测试视频</strong><small>本地测试上限 512 MB；上传后才会保存文件</small></label>
+          <input id="video-file" type="file" accept="video/mp4,video/quicktime,video/webm,.mov,.mp4,.webm" hidden>
+          <progress id="upload-progress" max="100" value="0" hidden></progress>
+          <div class="lab-actions"><button id="upload-button" class="button button-dark" type="button" disabled>上传视频</button><span id="upload-hint" aria-live="polite">先连接后端并选择文件</span></div>
+        </section>
+
+        <section class="lab-card" aria-labelledby="submissions-title">
+          <div class="lab-card-head"><span class="lab-index">FRONTEND TASKS</span><button id="refresh-submissions" class="lab-text-button" type="button">刷新任务</button></div>
+          <h2 id="submissions-title">前端提交的任务</h2>
+          <p>来自 Create your cover 的真实视频与设计选择。点击任务查看资源和处理记录。</p>
+          <div id="submission-list" class="lab-upload-list" aria-live="polite"><p class="lab-muted">连接后显示前端任务。</p></div>
+        </section>
+
+        <section class="lab-card" aria-labelledby="templates-title">
+          <div class="lab-card-head"><span class="lab-index">COVER TEMPLATES</span><button id="refresh-templates" class="lab-text-button" type="button">刷新模板</button></div>
+          <h2 id="templates-title">保护套模板库</h2>
+          <p>按固定方式查看合作伙伴模板。模板已归档，实际贴合仍需坐标注册、几何复核和实物试装。</p>
+          <div id="template-list" class="lab-upload-list" aria-live="polite"><p class="lab-muted">连接后显示模板。</p></div>
+        </section>
+
+        <section class="lab-card" aria-labelledby="history-title">
+          <div class="lab-card-head"><span class="lab-index">RECENT UPLOADS</span><button id="refresh-button" class="lab-text-button" type="button">刷新列表</button></div>
+          <h2 id="history-title">最近上传</h2>
+          <div id="upload-list" class="lab-upload-list" aria-live="polite"><p class="lab-muted">连接后显示最近记录。</p></div>
+        </section>
+      </div>
+
+      <div class="lab-column">
+        <section class="lab-card" aria-labelledby="submission-detail-title">
+          <div class="lab-card-head"><span class="lab-index">TASK DETAILS</span><span id="submission-id-short" class="lab-mono">尚未选择</span></div>
+          <h2 id="submission-detail-title">用户提交的资源与进度</h2>
+          <div id="submission-detail"><p class="lab-muted">从左侧选择一条前端任务。</p></div>
+          <div class="lab-resource">
+            <h3>生产工作流</h3>
+            <div id="production-flow-state" class="lab-muted">选择任务后显示全部阶段。</div>
+            <div class="lab-actions lab-actions-wrap">
+              <button id="prepare-hunyuan" class="button button-outline" type="button" disabled>打包混元输入</button>
+              <button id="submit-hunyuan" class="button button-outline" type="button" disabled>提交混元任务</button>
+              <button id="poll-hunyuan" class="button button-outline" type="button" disabled>查询混元进度</button>
+              <button id="archive-hunyuan" class="button button-outline" type="button" disabled>归档混元模型</button>
+              <button id="prepare-print-candidate" class="button button-outline" type="button" disabled>打包试样候选</button>
+            </div>
+            <p class="lab-muted">提交混元任务会调用腾讯云付费接口；上口和螺栓视角只用于结果核对。</p>
+            <details class="lab-resource">
+              <summary>200 mm 标尺定尺度</summary>
+              <p>COLMAP 完成后加载其建模帧。每张图先点标尺端点 A，再点端点 B；至少标注 3 个相机位置。坐标属于建模帧，不是六视角候选图。</p>
+              <button id="load-ruler-frames" class="button button-outline" type="button" disabled>加载建模帧</button>
+              <label class="lab-field" for="ruler-frame"><span>建模帧</span><select id="ruler-frame"></select></label>
+              <div class="lab-actions"><button id="suggest-ruler-marks" class="button button-outline" type="button">建议同心圆标点</button><button id="accept-ruler-marks" class="button button-outline" type="button" disabled>确认本帧 A/B</button></div>
+              <div style="position:relative;width:100%"><img id="ruler-frame-image" alt="点击图中的 200 mm 标尺两个端点" style="width:100%;cursor:crosshair;vertical-align:top" hidden><span id="ruler-marker-a" style="position:absolute;display:none;pointer-events:none;transform:translate(-50%,-50%);border:3px solid #e33;border-radius:50%;width:18px;height:18px;box-shadow:0 0 0 2px white"></span><span id="ruler-marker-b" style="position:absolute;display:none;pointer-events:none;transform:translate(-50%,-50%);border:3px solid #2688eb;border-radius:50%;width:18px;height:18px;box-shadow:0 0 0 2px white"></span></div>
+              <p id="ruler-click-state" class="lab-muted">先加载建模帧。</p>
+              <ol id="ruler-mark-list"></ol>
+              <button id="calibrate-ruler" class="button button-dark" type="button" disabled>三角化标尺并计算尺度</button>
+            </details>
+          </div>
+          <div class="lab-resource">
+            <h3>WorkBuddy 保护套任务</h3>
+            <p id="cover-task-state" class="lab-muted">选择任务后可准备本地交接包。</p>
+            <p id="cover-generation-review" class="lab-muted">生成候选审查记录将在这里显示。</p>
+            <label class="lab-field" for="cover-template"><span>候选模板</span><select id="cover-template"></select></label>
+            <div class="lab-actions"><button id="prepare-cover-task" class="button button-outline" type="button" disabled>准备 WorkBuddy 任务</button></div>
+            <details class="lab-resource">
+              <summary>标尺、点云、配准与概念保护套</summary>
+              <p>先完成标尺三角化、可信主体点云复核，再核对模板坐标与至少三张叠图。这里只放行数字试样，不代表实际佩戴适配。</p>
+              <label class="lab-field" for="cover-registration-json"><span>操作员配准审查 JSON</span><textarea id="cover-registration-json" rows="5" placeholder='{"cloudToTemplateTransform":[[1,0,0,0],[0,1,0,0],[0,0,1,0],[0,0,0,1]],"overlayPaths":["..."],"notes":"..."}'></textarea></label>
+              <button id="approve-cover-registration" class="button button-outline" type="button">核准概念配准</button>
+              <label class="lab-field" for="cover-candidate-id"><span>候选编号</span><input id="cover-candidate-id" value="concept-v1" pattern="[a-z0-9_-]{1,40}"></label>
+              <label class="lab-field" for="cover-proposal-json"><span>WorkBuddy 形变提案 JSON</span><textarea id="cover-proposal-json" rows="8" placeholder='{"template_axis_xy_mm":[0,0],"controls":[...]}'></textarea></label>
+              <button id="build-cover-concept" class="button button-dark" type="button">生成概念保护套</button>
+            </details>
+          </div>
+        </section>
+
+        <section class="lab-card" aria-labelledby="workflow-title">
+          <div class="lab-card-head"><span class="lab-index">03 / WORKFLOW</span><span id="upload-id-short" class="lab-mono">尚未选择</span></div>
+          <h2 id="workflow-title">工作流状态</h2>
+          <div class="lab-steps" aria-label="当前工作流阶段"><span>已上传</span><span>媒体质检</span><span>人工复核</span><span>参考模型</span></div>
+          <div id="current-status" class="lab-current"><strong>选择一条上传记录</strong><p>可查看实际处理结果与下一步操作。</p></div>
+          <dl id="media-facts" class="lab-facts" hidden></dl>
+          <div class="lab-actions lab-actions-wrap">
+            <button id="validate-button" class="button button-dark" type="button" disabled>运行视频质检</button>
+            <button id="model-button" class="button button-outline" type="button" disabled>启动 COLMAP 建模任务</button>
+          </div>
+        </section>
+
+        <section class="lab-card" aria-labelledby="review-title">
+          <div class="lab-card-head"><span class="lab-index">04 / REVIEW</span><span>人工门禁</span></div>
+          <h2 id="review-title">标靶与视角复核</h2>
+          <p>八张图是抽样证据。请核对标靶、上口、背面和螺栓侧；自动抽帧本身不证明拍摄合格。</p>
+          <div id="review-frames" class="lab-frame-grid"><p class="lab-muted">视频质检完成后在这里显示复核帧。</p></div>
+          <label class="lab-field" for="review-notes"><span>复核记录</span><textarea id="review-notes" rows="3" placeholder="记录标靶和视角的判断，至少 5 个字符"></textarea></label>
+          <p id="review-hint" class="lab-muted" aria-live="polite"></p>
+          <div class="lab-actions lab-actions-wrap">
+            <button id="approve-button" class="button button-dark" type="button" disabled>通过拍摄复核</button>
+            <button id="recapture-button" class="button button-outline" type="button" disabled>要求补拍</button>
+          </div>
+        </section>
+
+        <section class="lab-card" aria-labelledby="views-title">
+          <div class="lab-card-head"><span class="lab-index">05 / VIEW SELECTION</span><span id="view-state">尚未准备</span></div>
+          <h2 id="views-title">多视角候选与 AI 建议</h2>
+          <p>先抽取候选帧。可标定一张实物正面，再将候选图片发送至服务端配置的视觉 API 获取方向建议；最终选图由操作员确认。没有真实俯视或螺栓侧时请补拍。</p>
+          <div class="lab-actions lab-actions-wrap"><button id="prepare-views" class="button button-outline" type="button" disabled>抽取候选帧</button><button id="classify-views" class="button button-dark" type="button" disabled>调用视觉 API</button></div>
+          <p id="view-hint" class="lab-muted" aria-live="polite">先选择前端任务并完成视频质检。</p>
+          <div id="view-frames" class="lab-view-grid"></div>
+          <div id="view-selectors" class="lab-view-selectors"></div>
+          <label class="lab-field" for="view-notes"><span>选图复核记录</span><textarea id="view-notes" rows="2" placeholder="说明正面依据、上口和螺栓侧是否清楚"></textarea></label>
+          <div class="lab-actions"><button id="save-views" class="button button-outline" type="button" disabled>保存方向确认</button></div>
+        </section>
+
+        <details class="lab-card lab-response"><summary>接口响应记录</summary><pre id="response-log" aria-live="polite">暂无请求。</pre></details>
+      </div>
+    </section>
+  </main>
+  <footer class="site-footer"><span class="wordmark">forme<span class="wordmark-dot">.</span> <small>operator</small></span><span>Operator console · Local development</span><span>© 2026 Forme</span></footer>
+</body>
+</html>
