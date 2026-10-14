@@ -403,7 +403,7 @@ def create_app(settings: Settings | None = None) -> FastAPI:
         existing(upload_id)
         target = "accepted" if payload.approved else "needs_recapture"
         reason = "CAPTURE_REVIEW_APPROVED" if payload.approved else "CAPTURE_REVIEW_REJECTED"
-        action = "可进入参考模型生成阶段；当前尚未接通模型服务。" if payload.approved else payload.notes
+        action = "拍摄复核通过，可启动 COLMAP 并确认多视角；毫米尺度和保护套仍需后续复核。" if payload.approved else payload.notes
         if not store.transition(upload_id, "needs_capture_review", target, reason_code=reason, next_action=action, review_notes=payload.notes):
             raise HTTPException(409, detail={"code": "UPLOAD_STATE_CONFLICT"})
         return {"uploadId": upload_id, "status": target}
@@ -764,6 +764,8 @@ def create_app(settings: Settings | None = None) -> FastAPI:
     def internal_submission(submission_id: str) -> dict:
         submission = existing_submission(submission_id)
         preview = settings.data_dir / "uploads" / submission["upload_id"] / "preview.mp4"
+        progress = workflow_snapshot(store, settings.data_dir, submission_id)
+        cover = task_status(store, settings.data_dir, submission_id)
         model_job = store.model_job_for_submission(submission_id)
         if model_job is not None:
             cloud = settings.data_dir / "model_jobs" / model_job["id"] / "dense" / "fused.ply"
@@ -786,11 +788,13 @@ def create_app(settings: Settings | None = None) -> FastAPI:
                         "reasonCode": submission["upload"]["reason_code"], "nextAction": submission["upload"]["next_action"],
                         "reviewNotes": submission["upload"]["review_notes"]},
             "workflow": {"referenceModel": "colmap_reconstruction" if model_job else "not_started",
-                         "coverGeneration": "not_connected"},
+                         "coverGeneration": "trial_candidate_review" if progress["trialCandidate"] else
+                             "concept_candidate_review" if cover["candidateReview"] else
+                             "registration_ready" if cover["conceptBuildAllowed"] else "awaiting_reference_and_registration"},
             "modelJob": model_job,
             "hunyuanJob": hunyuan_job(submission_id),
-            "coverTask": task_status(store, settings.data_dir, submission_id),
-            "productionFlow": workflow_snapshot(store, settings.data_dir, submission_id),
+            "coverTask": cover,
+            "productionFlow": progress,
             "hunyuanConfigured": bool(settings.hunyuan_key_file and settings.hunyuan_key_file.is_file()),
             "geometryConfigured": bool(settings.geometry_python and Path(settings.geometry_python).is_file()),
             "viewReview": store.get_view_review(submission_id),

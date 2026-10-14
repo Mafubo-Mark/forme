@@ -6,6 +6,7 @@
 - `scripts/run_all.py`：监管 API、视频质检、COLMAP、混元结果工作器、云桥接与 SSH 隧道。
 - `scripts/add_stl_delivery.py`、`scripts/package_cover_candidate.py`：前后片 STL 和组合 STL 的打包、哈希及质量记录。
 - `src/forme_backend/api.py`、`production_flow.py`、`cloud_bridge.py`：STL 下载接口、工作流状态和云端 STL 回传。
+- `src/forme_backend/model_worker.py`：按实际相机数量选择重建，覆盖不足时补做闭环匹配；细节见 [COLMAP 修正记录](../../deploy/COLMAP_WORKFLOW_REPAIR_2026-10-14_ZH.md)。
 - `operator/js/app.js`：远程操作面板的 STL 链接及云端分段下载。
 - `run-local.sh`：单独开发启动时的本机令牌与工具路径设置。
 

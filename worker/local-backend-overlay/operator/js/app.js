@@ -441,6 +441,10 @@
     }
     host.append(hunyuanBox);
     $('#model-button').disabled = data.capture.status !== 'accepted' || !!data.modelJob;
+    $('#model-button').textContent = !data.modelJob ? '启动 COLMAP 建模任务'
+      : data.modelJob.stage === 'scale_review' ? 'COLMAP 点云已生成'
+      : ['queued', 'running'].includes(data.modelJob.status) ? `COLMAP：${modelStages[data.modelJob.stage] || '处理中'}`
+      : 'COLMAP 已停止，请查看任务日志';
     const cover = data.coverTask;
     const flowHost = $('#production-flow-state');
     flowHost.replaceChildren();
@@ -501,6 +505,10 @@
       LOCAL_THICKNESS_AND_SELF_INTERSECTION_REVIEW_REQUIRED: '局部壁厚与自交待检查',
       SLICER_PROFILE_CHECK_REQUIRED: '打印机切片参数待检查',
       FASTENER_AND_PHYSICAL_FIT_UNVERIFIED: '固定件和实物试装未验证',
+      CAVITY_SIZE_EXCEEDS_BOUNDED_MORPH: '内腔尺寸差异超过当前微调范围',
+      POINTCLOUD_ANGULAR_COVERAGE_INCOMPLETE: '部分点云截面的环向覆盖不足',
+      UPPER_OPENING_CLEARANCE_UNVERIFIED: '上口净空待复核',
+      SAMPLED_THIN_FEATURES_REQUIRE_REVIEW: '抽样发现疑似薄边，需局部检查',
     };
     const reviewText = review
       ? review.status === 'STALE_REVIEW' || review.status === 'INVALID_REVIEW'

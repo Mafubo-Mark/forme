@@ -128,6 +128,11 @@ class CloudBridge:
         else:
             status, stage = "accepted", "queued"
             note = "本机已接收视频，等待操作员复核拍摄与标尺。" if upload["status"] != "accepted" else "本机拍摄审核已通过，等待建模任务。"
+        snapshot = workflow_snapshot(self.store, self.settings.data_dir, sid) if upload['status'] == 'accepted' else None
+        candidate = snapshot.get('trialCandidate') if snapshot else None
+        if candidate:
+            status, stage = 'modeling', 'modeling'
+            note = '数字试样 STL 候选已生成，待尺寸、切片与人工审查；尚未验证佩戴适配。'
         if remote_artifact_sha:
             task_dir = self.settings.data_dir / "cover_tasks" / sid
             review_path = task_dir / "candidate_review.json"
@@ -142,8 +147,6 @@ class CloudBridge:
         self.request("POST", f"/api/worker/jobs/{sid}/progress", {"status": status, "stage": stage, "note": note[:500]})
         if upload["status"] != "accepted":
             return
-        snapshot = workflow_snapshot(self.store, self.settings.data_dir, sid)
-        candidate = snapshot.get("trialCandidate")
         if not candidate:
             return
         candidate_id = candidate["candidateId"]
@@ -160,7 +163,7 @@ class CloudBridge:
             self.request("POST", f"/api/worker/jobs/{sid}/progress",
                          {"status": "modeling", "stage": "modeling", "note": (
                              "同一拍摄素材的历史数字试样已回传，仅验证云端文件链路；当前新点云和混元白模未重新拟合此保护套，禁止客户发布。"
-                             if replay else "数字试样候选已回传，等待切片与人工审查；尚未验证佩戴适配。")})
+                             if replay else note)})
 
     def cycle(self) -> None:
         existing = self.request("GET", "/api/worker/jobs")["items"]
