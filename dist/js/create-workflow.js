@@ -13,6 +13,7 @@
   let step = 0;
   let busy = false;
   let templatesReady = false;
+  let selectedVideo = null;
 
   async function api(path, options = {}) {
     const response = await fetch(path, { credentials: 'same-origin', cache: 'no-store', ...options });
@@ -114,7 +115,7 @@
   }
   async function submitVideo() {
     if (draft.uploadId) return;
-    const file = $('#video-input').files[0];
+    const file = selectedVideo;
     if (!file) throw new Error(t('Choose a video first.', '請先選擇影片。'));
     if (!['video/mp4', 'video/quicktime', 'video/webm'].includes(mediaType(file))) throw new Error(t('Use MP4, MOV or WebM.', '請使用 MP4、MOV 或 WebM。'));
     if (file.size > 512 * 1024 * 1024) throw new Error(t('The video exceeds 512 MB.', '影片超過 512 MB。'));
@@ -157,11 +158,76 @@
     const open = $('.nav-links').classList.toggle('open');
     event.currentTarget.setAttribute('aria-expanded', String(open));
   });
-  $('#video-input').addEventListener('change', () => {
+  const videoInput = $('#video-input');
+  const uploadZone = $('.upload-zone');
+  let dragDepth = 0;
+  function resetDrag() {
+    dragDepth = 0;
+    uploadZone.classList.remove('is-dragover');
+  }
+  function selectVideo(files) {
+    if (busy || !files.length) return;
+    if (files.length !== 1) {
+      error(t('Choose one video at a time.', '請每次選擇一部影片。'));
+      return;
+    }
+    const file = files[0];
+    if (!['video/mp4', 'video/quicktime', 'video/webm'].includes(mediaType(file))) {
+      error(t('Use MP4, MOV or WebM.', '請使用 MP4、MOV 或 WebM。'));
+      return;
+    }
+    if (file.size > 512 * 1024 * 1024) {
+      error(t('The video exceeds 512 MB.', '影片超過 512 MB。'));
+      return;
+    }
+    selectedVideo = file;
     draft.uploadId = null;
-    const file = $('#video-input').files[0];
-    $('#video-feedback').textContent = file ? t(`Selected: ${file.name}`, `已選擇：${file.name}`) : '';
+    clearError();
+    $('#video-feedback').textContent = t(`Selected: ${file.name}`, `已選擇：${file.name}`);
+  }
+  videoInput.addEventListener('change', () => {
+    selectVideo(videoInput.files);
+    // Keep the File in shared state, so choosing the same file again also fires change.
+    videoInput.value = '';
   });
+  uploadZone.addEventListener('keydown', event => {
+    if (event.key === 'Enter' || event.key === ' ') {
+      event.preventDefault();
+      if (!busy) videoInput.click();
+    }
+  });
+  const hasFiles = event => Array.from(event.dataTransfer?.types || []).includes('Files');
+  uploadZone.addEventListener('dragenter', event => {
+    if (!hasFiles(event)) return;
+    event.preventDefault();
+    dragDepth += 1;
+    if (!busy) uploadZone.classList.add('is-dragover');
+  });
+  uploadZone.addEventListener('dragover', event => {
+    if (!hasFiles(event)) return;
+    event.preventDefault();
+    event.dataTransfer.dropEffect = busy ? 'none' : 'copy';
+  });
+  uploadZone.addEventListener('dragleave', () => {
+    dragDepth = Math.max(0, dragDepth - 1);
+    if (!dragDepth) resetDrag();
+  });
+  uploadZone.addEventListener('drop', event => {
+    event.preventDefault();
+    resetDrag();
+    if (busy) return;
+    const files = event.dataTransfer?.files;
+    if (files?.length) selectVideo(files);
+    else error(t('Drop a video file from your computer.', '請從電腦拖入影片檔案。'));
+  });
+  // A file dropped outside the zone must not navigate away and discard the form.
+  for (const name of ['dragover', 'drop']) {
+    window.addEventListener(name, event => {
+      if (hasFiles(event)) event.preventDefault();
+      if (name === 'drop') resetDrag();
+    });
+  }
+  window.addEventListener('blur', resetDrag);
   $('#inspiration-image').addEventListener('change', () => {
     const file = $('#inspiration-image').files[0];
     $('#inspiration-feedback').textContent = file ? t(`Selected: ${file.name}`, `已選擇：${file.name}`) : '';
@@ -189,6 +255,9 @@
   $('#next-step').addEventListener('click', async () => {
     if (busy) return;
     busy = true;
+    videoInput.disabled = true;
+    uploadZone.setAttribute('aria-disabled', 'true');
+    resetDrag();
     $('#next-step').disabled = true;
     clearError();
     try {
@@ -199,6 +268,8 @@
       if (failure.message !== 'CUSTOMER_SESSION_REQUIRED') error(failure.message || t('Please retry.', '請重試。'));
     } finally {
       busy = false;
+      videoInput.disabled = false;
+      uploadZone.setAttribute('aria-disabled', 'false');
       $('#next-step').disabled = false;
     }
   });

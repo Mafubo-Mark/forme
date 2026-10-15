@@ -30,7 +30,7 @@
     ['1. Record','1. 拍攝'],['2. Model','2. 模型'],['3. Color','3. 樣式與顏色'],['4. Material','4. 材料'],
     ['01 / RECORD','01 / 拍攝'],['Show us your prosthesis.','讓我們看看你的義肢。'],
     ['Record a slow, steady video around your prosthesis in good light. Include a 200 mm scale target. Capture front, back, both sides, then tilt above for a clear top-opening view and show the bolt side up close.','在充足光線下緩慢環繞拍攝義肢，並放入 200 mm 標定尺。請拍攝正面、背面、左右兩側、清晰的上口俯視和螺栓近照。'],
-    ['Choose a video to upload','選擇影片上傳'],['MP4, MOV, or WebM · up to 512 MB','MP4、MOV 或 WebM · 最大 512 MB'],
+    ['Drop a video here, or click to choose','將影片拖放至此，或點擊選擇'],['MP4, MOV, or WebM · up to 512 MB','MP4、MOV 或 WebM · 最大 512 MB'],
     ['Recording tip','拍攝提示'],['Move slowly around the prosthesis and keep it centered in the frame.','緩慢環繞義肢拍攝，並讓義肢保持在畫面中央。'],
     ['02 / MODEL','02 / 模型'],['Your base model.','你的基礎模型。'],
     ['Your video is uploaded for quality review. Our team checks your video before creating the reference model. Your style and color choices are saved with the submission.','影片上傳後會先進行品質檢查，再建立參考模型。你選擇的樣式和顏色會隨提交資料儲存。'],
