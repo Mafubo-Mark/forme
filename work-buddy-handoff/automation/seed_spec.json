@@ -1,0 +1,10 @@
+{
+  "clearance_mm": 8,
+  "wall_mm": 3,
+  "smooth_iterations": 9,
+  "profile_mm": [0, 0, 0, 0, 0, 0],
+  "upper_flare_mm": 0,
+  "front_back_bias_mm": 0,
+  "upper_raise_mm": 0,
+  "rim_asymmetry_mm": 0
+}

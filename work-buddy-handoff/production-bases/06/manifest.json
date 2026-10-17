@@ -1,0 +1,8 @@
+{
+  "templateId": "06",
+  "operation": "original template negative X mirrored to positive X around x=0; no patient geometry included",
+  "sha256": {
+    "front": "8ebdebf2dca6e8c9f831a607eedd1d2b2c60007655f0a667d9490fa9aa7e27c4",
+    "rear": "888f790d4bcc6d44181efd8ab8e6379ed749bb1cd7b4581b207a5504059b8a75"
+  }
+}

@@ -1,0 +1,536 @@
+{
+  "schema_version": 1,
+  "units_claimed": "mm",
+  "coordinate_claim": "Z up; +Y rear, from source package",
+  "templates": [
+    {
+      "id": "01",
+      "name": "祥云",
+      "source_archive": "/Volumes/extra/workspace1/modols/01_祥云_尺寸模型包.zip",
+      "source_sha256": "cd38b21cd750535352c54c15b6350fece70f4ecb77f89d230b19afa60f3eafe8",
+      "directory": "/Volumes/extra/workspace1/projects/test4/work-buddy-handoff/templates/01",
+      "files": [
+        "121mm标定说明.jpg",
+        "back.png",
+        "dimensions_and_checks.json",
+        "fastener.png",
+        "front.png",
+        "front.stl",
+        "hero.png",
+        "rear.stl",
+        "rotating_tab_print_4.stl",
+        "side.png",
+        "交付检查.md",
+        "使用说明.md",
+        "尺寸图.jpg",
+        "模型检查.json"
+      ],
+      "meshes": {
+        "front.stl": {
+          "triangles": 530928,
+          "bytes": 26546484,
+          "bounds_min_max_mm": [
+            [
+              -59.45,
+              -29.702,
+              0.0
+            ],
+            [
+              53.814,
+              24.239,
+              315.25
+            ]
+          ],
+          "sha256": "c576721e9430dadc7aaffc911892a749f3b8c1ed2c37aea09275dd1be53ed963"
+        },
+        "rear.stl": {
+          "triangles": 533908,
+          "bytes": 26695484,
+          "bounds_min_max_mm": [
+            [
+              -59.517,
+              19.286,
+              0.0
+            ],
+            [
+              53.752,
+              78.38,
+              315.25
+            ]
+          ],
+          "sha256": "ad07aa15afc431f814225ac44a7cc24d7f919410ff103db9dd81acd95a95ee30"
+        },
+        "rotating_tab_print_4.stl": {
+          "triangles": 744,
+          "bytes": 37284,
+          "bounds_min_max_mm": [
+            [
+              2.6,
+              -9.5,
+              -3.5
+            ],
+            [
+              6.0,
+              9.5,
+              3.5
+            ]
+          ],
+          "sha256": "66bc8c90ee2ec306550a3180230cc2cabee597d1a54296a06e77cb9ce445d948"
+        }
+      },
+      "metadata_file": "dimensions_and_checks.json",
+      "fixing": "旋转压片扣",
+      "nominal_clearance_mm": 1.5,
+      "shell_height_mm": 315.25236136722134,
+      "has_editable_blend": false,
+      "status": "source_registered_unverified_fit"
+    },
+    {
+      "id": "02",
+      "name": "蜂巢",
+      "source_archive": "/Volumes/extra/workspace1/modols/02_蜂巢_尺寸模型包.zip",
+      "source_sha256": "7d99b05ab6ff603f1e09174565f145429298270cc0318ddfb6767c87998ff696",
+      "directory": "/Volumes/extra/workspace1/projects/test4/work-buddy-handoff/templates/02",
+      "files": [
+        "121mm标定说明.jpg",
+        "back.png",
+        "dimensions_and_checks.json",
+        "fastener.png",
+        "front.png",
+        "front.stl",
+        "hero.png",
+        "rear.stl",
+        "side.png",
+        "交付检查.md",
+        "使用说明.md",
+        "尺寸图.jpg",
+        "模型检查.json"
+      ],
+      "meshes": {
+        "front.stl": {
+          "triangles": 531400,
+          "bytes": 26570084,
+          "bounds_min_max_mm": [
+            [
+              -60.688,
+              -29.702,
+              0.0
+            ],
+            [
+              53.814,
+              24.239,
+              315.25
+            ]
+          ],
+          "sha256": "04bc51629bad30329bba60a3b489abdd96c36e6e2bd32e385ea36dd541b3cb12"
+        },
+        "rear.stl": {
+          "triangles": 534690,
+          "bytes": 26734584,
+          "bounds_min_max_mm": [
+            [
+              -60.688,
+              19.286,
+              0.0
+            ],
+            [
+              53.752,
+              78.38,
+              315.25
+            ]
+          ],
+          "sha256": "c0cc8f8c3fc25b661bb56d391a0682e9a872a179495d6debec8d6596ccd5e189"
+        }
+      },
+      "metadata_file": "dimensions_and_checks.json",
+      "fixing": "M2.5小耳座螺钉",
+      "nominal_clearance_mm": 1.5,
+      "shell_height_mm": 315.25236136722134,
+      "has_editable_blend": false,
+      "status": "source_registered_unverified_fit"
+    },
+    {
+      "id": "03",
+      "name": "流线",
+      "source_archive": "/Volumes/extra/workspace1/modols/03_流线_尺寸模型包.zip",
+      "source_sha256": "455663bd998c9316e4aced1194c84d9c64e645e46fb8f408a9f6daced4c74b23",
+      "directory": "/Volumes/extra/workspace1/projects/test4/work-buddy-handoff/templates/03",
+      "files": [
+        "121mm标定说明.jpg",
+        "back.png",
+        "dimensions_and_checks.json",
+        "fastener.png",
+        "front.png",
+        "front.stl",
+        "hero.png",
+        "rear.stl",
+        "side.png",
+        "交付检查.md",
+        "使用说明.md",
+        "尺寸图.jpg",
+        "模型检查.json"
+      ],
+      "meshes": {
+        "front.stl": {
+          "triangles": 538034,
+          "bytes": 26901784,
+          "bounds_min_max_mm": [
+            [
+              -60.888,
+              -29.702,
+              0.0
+            ],
+            [
+              53.814,
+              24.239,
+              315.25
+            ]
+          ],
+          "sha256": "d1048ebbc83f4d8ef25a722f28027f3d0473e26ac735c7cdc5d094342e46b245"
+        },
+        "rear.stl": {
+          "triangles": 537914,
+          "bytes": 26895784,
+          "bounds_min_max_mm": [
+            [
+              -60.888,
+              16.635,
+              0.0
+            ],
+            [
+              53.752,
+              78.38,
+              315.25
+            ]
+          ],
+          "sha256": "a3ffd63fb4a90f69b195bcf160a122bfa787f33f07e9163d9f60a2e2c8ca975c"
+        }
+      },
+      "metadata_file": "dimensions_and_checks.json",
+      "fixing": "微型耳座＋插销",
+      "nominal_clearance_mm": 1.5,
+      "shell_height_mm": 315.25236136722134,
+      "has_editable_blend": false,
+      "status": "source_registered_unverified_fit"
+    },
+    {
+      "id": "04",
+      "name": "竹影",
+      "source_archive": "/Volumes/extra/workspace1/modols/04_竹影_尺寸模型包.zip",
+      "source_sha256": "225404cb1ad293f40556d96e9caca117202aea525e46bf52daaf381e52ecc8a4",
+      "directory": "/Volumes/extra/workspace1/projects/test4/work-buddy-handoff/templates/04",
+      "files": [
+        "121mm标定说明.jpg",
+        "back.png",
+        "dimensions_and_checks.json",
+        "fastener.png",
+        "front.png",
+        "front.stl",
+        "hero.png",
+        "rear.stl",
+        "side.png",
+        "交付检查.md",
+        "使用说明.md",
+        "尺寸图.jpg",
+        "模型检查.json"
+      ],
+      "meshes": {
+        "front.stl": {
+          "triangles": 532660,
+          "bytes": 26633084,
+          "bounds_min_max_mm": [
+            [
+              -59.425,
+              -29.702,
+              0.0
+            ],
+            [
+              53.814,
+              24.239,
+              315.25
+            ]
+          ],
+          "sha256": "3c1b486fe3e5edeaa947b8a651485830e05c0cf4d1a3517d1096dbba772e96e2"
+        },
+        "rear.stl": {
+          "triangles": 536154,
+          "bytes": 26807784,
+          "bounds_min_max_mm": [
+            [
+              -59.509,
+              19.286,
+              0.0
+            ],
+            [
+              53.752,
+              78.38,
+              315.25
+            ]
+          ],
+          "sha256": "89e89f5837accd3691361a78abf1a0d65e7b6dfecd6e3ce873d9d4d8b8d8c71e"
+        }
+      },
+      "metadata_file": "dimensions_and_checks.json",
+      "fixing": "穿绳束合",
+      "nominal_clearance_mm": 1.5,
+      "shell_height_mm": 315.25236136722134,
+      "has_editable_blend": false,
+      "status": "source_registered_unverified_fit"
+    },
+    {
+      "id": "05",
+      "name": "鳞羽",
+      "source_archive": "/Volumes/extra/workspace1/modols/05_鳞羽_尺寸模型包.zip",
+      "source_sha256": "8a656493b84b54f2c1df757f5a387365c631521891e6d9acdd02b5621f5e48e3",
+      "directory": "/Volumes/extra/workspace1/projects/test4/work-buddy-handoff/templates/05",
+      "files": [
+        "121mm标定说明.jpg",
+        "back.png",
+        "dimensions_and_checks.json",
+        "fastener.png",
+        "front.png",
+        "front.stl",
+        "hero.png",
+        "rear.stl",
+        "side.png",
+        "交付检查.md",
+        "使用说明.md",
+        "尺寸图.jpg",
+        "模型检查.json"
+      ],
+      "meshes": {
+        "front.stl": {
+          "triangles": 532020,
+          "bytes": 26601084,
+          "bounds_min_max_mm": [
+            [
+              -60.688,
+              -29.702,
+              0.0
+            ],
+            [
+              53.814,
+              24.239,
+              315.25
+            ]
+          ],
+          "sha256": "62044e1c24b93fba4c423bd63e17513505fcf7da234684d1ebd0b9e01aa4323d"
+        },
+        "rear.stl": {
+          "triangles": 535684,
+          "bytes": 26784284,
+          "bounds_min_max_mm": [
+            [
+              -60.688,
+              19.286,
+              0.0
+            ],
+            [
+              53.752,
+              78.38,
+              315.25
+            ]
+          ],
+          "sha256": "8a45e405ff1334baecdba6ce5f3754e4d5db10e1fc7eff32bd6eafd08b59e5a4"
+        }
+      },
+      "metadata_file": "dimensions_and_checks.json",
+      "fixing": "磁吸＋定位销＋保险螺钉",
+      "nominal_clearance_mm": 1.5,
+      "shell_height_mm": 315.25236136722134,
+      "has_editable_blend": false,
+      "status": "source_registered_unverified_fit"
+    },
+    {
+      "id": "06",
+      "name": "通风",
+      "source_archive": "/Volumes/extra/workspace1/modols/06_通风_尺寸模型包.zip",
+      "source_sha256": "744c2df3b2e80d0b9fd72051d386161f9d8d1d2dc948e16b325401fed1271fdd",
+      "directory": "/Volumes/extra/workspace1/projects/test4/work-buddy-handoff/templates/06",
+      "files": [
+        "121mm标定说明.jpg",
+        "ABS_hook_print_4.stl",
+        "back.png",
+        "dimensions_and_checks.json",
+        "fastener.png",
+        "front.png",
+        "front.stl",
+        "hero.png",
+        "rear.stl",
+        "side.png",
+        "交付检查.md",
+        "使用说明.md",
+        "尺寸图.jpg",
+        "模型检查.json"
+      ],
+      "meshes": {
+        "ABS_hook_print_4.stl": {
+          "triangles": 680,
+          "bytes": 34084,
+          "bounds_min_max_mm": [
+            [
+              3.05,
+              -15.5,
+              -4.0
+            ],
+            [
+              5.8,
+              8.4,
+              4.0
+            ]
+          ],
+          "sha256": "d94152d452605e7593fe06617d4eecf91424c2114ea9d7cb212020009fa6c53f"
+        },
+        "front.stl": {
+          "triangles": 528548,
+          "bytes": 26427484,
+          "bounds_min_max_mm": [
+            [
+              -59.544,
+              -29.503,
+              0.0
+            ],
+            [
+              53.615,
+              24.239,
+              315.25
+            ]
+          ],
+          "sha256": "b965cb7c98084382ce08cccd085308d035665ffd05a40e6d73d6629adb2912d5"
+        },
+        "rear.stl": {
+          "triangles": 530634,
+          "bytes": 26531784,
+          "bounds_min_max_mm": [
+            [
+              -59.579,
+              19.286,
+              0.0
+            ],
+            [
+              53.552,
+              78.202,
+              315.25
+            ]
+          ],
+          "sha256": "b2d34ca29b4e5f5ed34d918e9e08bddbf8a52e5e32af2cdbfeeb62378de98f5d"
+        }
+      },
+      "metadata_file": "dimensions_and_checks.json",
+      "fixing": "独立ABS弹性钩扣",
+      "nominal_clearance_mm": 1.5,
+      "shell_height_mm": 315.25236136722134,
+      "has_editable_blend": false,
+      "status": "source_registered_unverified_fit"
+    },
+    {
+      "id": "05-magnetic",
+      "name": "鳞羽内嵌磁吸",
+      "source_archive": "/Volumes/extra/workspace1/modols/鱼鳞保护套_内嵌磁吸_尺寸模型包.zip",
+      "source_sha256": "5571781d84d4b0ea1704785d506cf60b81c1cf2e058ddb380682cc3cfe39eab0",
+      "directory": "/Volumes/extra/workspace1/projects/test4/work-buddy-handoff/templates/05-magnetic",
+      "files": [
+        "使用说明.md",
+        "侧面.png",
+        "内嵌磁吸鱼鳞保护套.blend",
+        "内嵌磁铁细节.png",
+        "前壳.stl",
+        "后壳.stl",
+        "尺寸与检查.json",
+        "尺寸图.jpg",
+        "改进前后对比.jpg",
+        "整体.png",
+        "正面.png",
+        "背面.png"
+      ],
+      "meshes": {
+        "前壳.stl": {
+          "triangles": 534338,
+          "bytes": 26716984,
+          "bounds_min_max_mm": [
+            [
+              -63.049,
+              -29.702,
+              0.0
+            ],
+            [
+              57.412,
+              24.239,
+              315.25
+            ]
+          ],
+          "sha256": "ed978406cd619c5ca96f88cb96e5a2198a90ec1a178f864724e0f381448cc9b7"
+        },
+        "后壳.stl": {
+          "triangles": 537928,
+          "bytes": 26896484,
+          "bounds_min_max_mm": [
+            [
+              -63.111,
+              19.286,
+              0.0
+            ],
+            [
+              57.352,
+              78.38,
+              315.25
+            ]
+          ],
+          "sha256": "60c18a4938a20b3012c9f0fa63959c481122dd35ed514ef555d16b4defd5d02c"
+        }
+      },
+      "metadata_file": "尺寸与检查.json",
+      "fixing": "内嵌磁吸；需验证保持力",
+      "nominal_clearance_mm": 1.5,
+      "shell_height_mm": 315.25,
+      "has_editable_blend": true,
+      "status": "source_registered_unverified_fit"
+    }
+  ],
+  "unidentified_files": [
+    {
+      "filename": "前壳.stl",
+      "path": "/Volumes/extra/workspace1/projects/test4/work-buddy-handoff/templates/unidentified/前壳.stl",
+      "sha256": "bf20ad71caced180941797df00a39de4d794001fa8c9f949a696b4d1aaae1664",
+      "triangles": 1329694,
+      "bytes": 66484784,
+      "bounds_min_max_mm": [
+        [
+          -63.049,
+          -29.702,
+          0.0
+        ],
+        [
+          57.412,
+          24.239,
+          315.25
+        ]
+      ],
+      "status": "unidentified_variant_do_not_auto_select"
+    },
+    {
+      "filename": "后壳.stl",
+      "path": "/Volumes/extra/workspace1/projects/test4/work-buddy-handoff/templates/unidentified/后壳.stl",
+      "sha256": "1f13e9d5341d8f5a228a904e00ac8a90fa3b9232b3fef08c6f7a4c23454b408b",
+      "triangles": 537924,
+      "bytes": 26896284,
+      "bounds_min_max_mm": [
+        [
+          -63.111,
+          19.286,
+          0.0
+        ],
+        [
+          57.352,
+          78.38,
+          315.25
+        ]
+      ],
+      "status": "unidentified_variant_do_not_auto_select"
+    }
+  ],
+  "notes": [
+    "Source checks are supplier claims until independently reproduced.",
+    "No template is approved for physical fit or clinical use."
+  ]
+}

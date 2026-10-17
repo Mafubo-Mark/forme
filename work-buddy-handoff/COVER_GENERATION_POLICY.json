@@ -1,0 +1,31 @@
+{
+  "schemaVersion": 1,
+  "policyId": "cover-generation-2026-10-06",
+  "product": "non-load-bearing external prosthetic cover",
+  "upperOpeningIntent": "low opening; expose the receiver's high flange",
+  "evidenceOrder": [
+    "original video and calibrated ruler",
+    "reviewed COLMAP regions with coverage and uncertainty",
+    "existing cover template and independently checked registration",
+    "Hunyuan model for visual comparison only"
+  ],
+  "rules": [
+    "Count independent physical subjects, not files or style variants, when judging external shape priors.",
+    "Record source provenance and license; do not transfer third-party mesh geometry without an explicit compatible-use decision.",
+    "Use only reviewed, sufficiently covered point-cloud regions for bounded, smooth body adjustments. Do not force sparse upper or lower regions to match noisy points.",
+    "Preserve the low upper rim unless direct edge evidence supports a change; compare the intentional exposed high flange against the original video.",
+    "Treat improvement against the same source point cloud as an iteration metric, not independent proof of clearance or fit.",
+    "Review exported meshes and original-photo overlays together; reject torn openings, thin side-hole edges, disconnected parts, self-intersections, and unintended interference."
+  ],
+  "reviewRequirements": [
+    "input source hashes and coordinate transform",
+    "point-cloud coverage by region and trusted adjustment interval",
+    "template and external-prior provenance",
+    "maximum vertex movement and preserved opening evidence",
+    "watertightness, components, boundary and non-manifold edges, self-intersection and local thickness",
+    "original-photo overlays from front, side, rear and upper views",
+    "slicer preview with material and machine profile",
+    "fastener and physical fitting trial"
+  ],
+  "releaseRule": "A concept mesh or slicer-importable STL is not a printable, wearable product. Manufacturing approval requires the operator's independent geometry, slicer and physical fit sign-off."
+}

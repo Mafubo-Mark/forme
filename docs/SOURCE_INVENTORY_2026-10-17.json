@@ -1,0 +1,904 @@
+{
+  "date": "2026-10-17",
+  "scope": "frontend and cloud code already tracked; add Mac backend, operator, geometry tools, WorkBuddy skill/MCP, pure symmetric template bases and first-party research scripts",
+  "excluded": [
+    "credentials and private settings",
+    "patient photos/videos/point clouds/models",
+    "databases, logs and runtime job state",
+    "virtual environments and downloaded tool binaries",
+    "per-customer generated experiment scripts under data/",
+    "original complete third-party template print library; production symmetric base 06 is included"
+  ],
+  "copiedFileCount": 222,
+  "researchScriptCount": 81,
+  "files": {
+    "forme-backend/src/forme_backend/worker.py": {
+      "bytes": 2768,
+      "sha256": "1517fbc54fb46f443e2de599e94e725e6e108c149f6e171c10fc30b8f91b053c"
+    },
+    "forme-backend/src/forme_backend/cover_automation.py": {
+      "bytes": 11236,
+      "sha256": "bcd87cc06382a1cd4468a99f5918938ef7fdc22727fc7120ace687f2bcd16787"
+    },
+    "forme-backend/src/forme_backend/store.py": {
+      "bytes": 16196,
+      "sha256": "58389b3e90879636c6579bda3f3df44f88ca11aee843e3316d62d3f2b8ca0440"
+    },
+    "forme-backend/src/forme_backend/cloud_bridge.py": {
+      "bytes": 12868,
+      "sha256": "8b3600433031643015710f80bd3d468f585e6990198ca1c43191458c85420058"
+    },
+    "forme-backend/src/forme_backend/model_worker.py": {
+      "bytes": 10676,
+      "sha256": "d0ff8f7df446d441257cfd70080aa5f418d3024d1f532121b41163907e48924c"
+    },
+    "forme-backend/src/forme_backend/scan_workflow.py": {
+      "bytes": 15744,
+      "sha256": "d1479d19fc11ae4fc63f8726c4453494f65914cae3d2f0d01dca6263273ea421"
+    },
+    "forme-backend/src/forme_backend/config.py": {
+      "bytes": 2713,
+      "sha256": "e565c37a4380de72a1e12fcdf551741d6549eac64981ab15a1fb20e73f63a985"
+    },
+    "forme-backend/src/forme_backend/hunyuan_pro.py": {
+      "bytes": 11864,
+      "sha256": "f763ea25ac4a9835dfd5d818b8a004f8cb2831699301a6f6707b5226080083c0"
+    },
+    "forme-backend/src/forme_backend/production_flow.py": {
+      "bytes": 10882,
+      "sha256": "c2bc8c6224091ed3ee56d0b14cb7a74ac136880cbe0386229b1e8bb7694c9444"
+    },
+    "forme-backend/src/forme_backend/__init__.py": {
+      "bytes": 21,
+      "sha256": "0b2d0c49b35f98dfd9ee90eecf7d9f1c74c718d896ec65ef6694a6d1fb302c31"
+    },
+    "forme-backend/src/forme_backend/api.py": {
+      "bytes": 69448,
+      "sha256": "47b32029c61b207e3b8b84819bf2a53811691f74b46c416c6e4cd80e13953258"
+    },
+    "forme-backend/src/forme_backend/concept_cover.py": {
+      "bytes": 12187,
+      "sha256": "a951d8932d880af734d02655d57adc1639ba4c04d9296c7557f04a07f5ac5972"
+    },
+    "forme-backend/src/forme_backend/hunyuan_worker.py": {
+      "bytes": 2591,
+      "sha256": "a850bfc003d7f3ad759dc85a596aff8f454f424ee16e489b617d5ee6f6715fd3"
+    },
+    "forme-backend/src/forme_backend/view_review.py": {
+      "bytes": 8360,
+      "sha256": "a35f72fb092ebd401c643617c65188c4eac699feedfb387dfe1c68569e11a309"
+    },
+    "forme-backend/src/forme_backend/quality.py": {
+      "bytes": 3182,
+      "sha256": "bc520e509e6fccb3bd58ed97aaac23b26e896d3d7cecd95e493f80acf6897da2"
+    },
+    "forme-backend/src/forme_backend/scan_worker.py": {
+      "bytes": 1302,
+      "sha256": "61728321049c624b4f594fe646af373d9b114307356c16def0d034b45d2898f7"
+    },
+    "forme-backend/src/forme_backend.egg-info/PKG-INFO": {
+      "bytes": 328,
+      "sha256": "6d257ba44ca6ef745ecda9081051759e46fb2ad0f4390ba58d14c0c9cd10048f"
+    },
+    "forme-backend/src/forme_backend.egg-info/SOURCES.txt": {
+      "bytes": 395,
+      "sha256": "6f36a691b4afacc1ec5e1a3c86b961eabbd19430b72260b4dadf71a38afed47f"
+    },
+    "forme-backend/src/forme_backend.egg-info/requires.txt": {
+      "bytes": 72,
+      "sha256": "9186f7223115f65e702c47365abf7c00f9689ef35ed2bc33c257f3d32a67b415"
+    },
+    "forme-backend/src/forme_backend.egg-info/top_level.txt": {
+      "bytes": 14,
+      "sha256": "0b0e307eccd5ba3611288d634ee70c48d26e7cac5ec67231d569cabbb36cff1a"
+    },
+    "forme-backend/src/forme_backend.egg-info/dependency_links.txt": {
+      "bytes": 1,
+      "sha256": "01ba4719c80b6fe911b091a7c05124b64eeece964e09c058ef8f9805daca546b"
+    },
+    "forme-backend/scripts/package_cover_candidate.py": {
+      "bytes": 6411,
+      "sha256": "8c3b06eedd2fd2167322c27473db139706e32c53d924e7651a6c2726be0e8169"
+    },
+    "forme-backend/scripts/render_ruler_template_concept.py": {
+      "bytes": 2694,
+      "sha256": "d462dbe6a357bd6705a5f91b919935c46094cee7fb1d6b685e59a52788d1062d"
+    },
+    "forme-backend/scripts/hunyuan_pro.py": {
+      "bytes": 148,
+      "sha256": "4a97b396a1cf839db69bc4c1e5a42c3d990d6ce5645c1c69a69a6326eb7e5c73"
+    },
+    "forme-backend/scripts/review_subject_crop.py": {
+      "bytes": 3729,
+      "sha256": "7642f76516f42a14c9ed3bde2dc4fb386c9d7ecb5a6b98748bc3015ede2641f1"
+    },
+    "forme-backend/scripts/add_stl_delivery.py": {
+      "bytes": 3101,
+      "sha256": "c52b59cf0646365b699a65feb6137d274b586c67e625bff43f843c184ae1594c"
+    },
+    "forme-backend/scripts/scan_workflow_cli.py": {
+      "bytes": 2006,
+      "sha256": "2d6524cc111fa51d3405b071a647dc66ac5103591c77bc78ae7bebcdea4c3889"
+    },
+    "forme-backend/scripts/calibrate_ruler.py": {
+      "bytes": 6990,
+      "sha256": "f4748e5c56fce3e23f5d216aac883638c54ac43633a7eac96bdd384a22beb631"
+    },
+    "forme-backend/scripts/pair_cloud.py": {
+      "bytes": 2509,
+      "sha256": "69fe179ad29248b4fc2ad290a5109cd2e595c66f12f455fbc2bca1abf5bb8e7b"
+    },
+    "forme-backend/scripts/build_ruler_template_concept.py": {
+      "bytes": 8936,
+      "sha256": "a610c387cad2ce6328ebd258872c44bd48b41a22c496b2f5e2e44b0fcbfa32e8"
+    },
+    "forme-backend/scripts/audit_pointcloud.py": {
+      "bytes": 6719,
+      "sha256": "0740eacc0642e13d2c0384b02b1e07e5da30db95af864fe397815b734eb620c7"
+    },
+    "forme-backend/scripts/build_ruler_only_assessment.py": {
+      "bytes": 4785,
+      "sha256": "5eac2e2e0a042e311411ac99608a192a78721cf5f6b883d526187242fa960f42"
+    },
+    "forme-backend/scripts/suggest_ruler_marks.py": {
+      "bytes": 3007,
+      "sha256": "ff4de7e3154afac86142c60f7801a6215ba83cfd42438b9d069de349fe0a2613"
+    },
+    "forme-backend/scripts/build_template_previews.py": {
+      "bytes": 1952,
+      "sha256": "be67df64b30e53fa560378af3807dddbe9fcb3caa68054bdcd9e6dd395860ea9"
+    },
+    "forme-backend/scripts/prepare_scan_reference.py": {
+      "bytes": 4929,
+      "sha256": "0e6479c1cf1360bf265539dec5f9cbf434fd362b3cff156758953ca41bbef0bd"
+    },
+    "forme-backend/scripts/inspect_print_mesh.py": {
+      "bytes": 3081,
+      "sha256": "bf885a319365d610b010a65c8c9bd052812f852a0dd092dcd701407c182af174"
+    },
+    "forme-backend/scripts/align_hunyuan_candidate.py": {
+      "bytes": 8647,
+      "sha256": "d60f864719add03f9026b630aad27afb598106a9822afff85176462eb6583371"
+    },
+    "forme-backend/scripts/package_print_prototype.py": {
+      "bytes": 5562,
+      "sha256": "ede68010973080d89dfd1d2407fb23683bd29ce7e8063e0b5a31db62c191f079"
+    },
+    "forme-backend/scripts/run_all.py": {
+      "bytes": 5162,
+      "sha256": "565d00ef2273aa76dc55ea4a4857974abd827c5d6f7c44cabb843564e2d1a820"
+    },
+    "forme-backend/scripts/audit_submission_cloud.py": {
+      "bytes": 4166,
+      "sha256": "4f6f02fd2065d884bc8f43710d8105948752bfbfae600aad1650760ecb0cac18"
+    },
+    "forme-backend/scripts/scanfit/run.py": {
+      "bytes": 5606,
+      "sha256": "159ec733a42f98113f56213c7480bda8975c7af2efbbd014e041d60b85e403e3"
+    },
+    "forme-backend/scripts/scanfit/render_review.py": {
+      "bytes": 4188,
+      "sha256": "264de3f6fc2e6a6c62e84b6f3c96c8baf70c90e21bb122f8b65e6aaa38293bb9"
+    },
+    "forme-backend/scripts/scanfit/finish_mesh.py": {
+      "bytes": 1246,
+      "sha256": "658eca7c71eb9d96f783a3a984d928463ec10f40223d0be8d4a8a5c3ca8e0e66"
+    },
+    "forme-backend/scripts/scanfit/rim_limit.py": {
+      "bytes": 2496,
+      "sha256": "3fb92d84fa2019045d7f93a4783258a68b0fe7a4838cc01b321cfdd2876e264b"
+    },
+    "forme-backend/scripts/scanfit/bolt_check.py": {
+      "bytes": 1413,
+      "sha256": "c40c2d87e3f03701f07656a36b64fa757c7d2bfcf0bb849b1bc1f959af3d0f73"
+    },
+    "forme-backend/scripts/scanfit/fit_profile.py": {
+      "bytes": 11341,
+      "sha256": "8d7c2ef3514680cc17a3d30b626586f8dd2f6af28f7e712f2759a30068c09309"
+    },
+    "forme-backend/operator/index.html": {
+      "bytes": 15993,
+      "sha256": "93adafe9dcee25ae96bcb7774dd46a6ff23c4842b44ff2d991c63ef186e4aa71"
+    },
+    "forme-backend/operator/css/app.css": {
+      "bytes": 8345,
+      "sha256": "9b531451c3317f9ba85c22600e6ba588f1142a9c994a6597f2797caec390298a"
+    },
+    "forme-backend/operator/js/media-loader.js": {
+      "bytes": 3031,
+      "sha256": "a2d09db4e0f3fe1d81b3f11d2a41011f5a4db7b0208b5ffc3a150294bc50f649"
+    },
+    "forme-backend/operator/js/app.js": {
+      "bytes": 57500,
+      "sha256": "83542e1abe9495405daf6c17ae7b679c4a45db7b3bf2c764c9a1b15003953b1d"
+    },
+    "forme-backend/tests/test_scan_workflow.py": {
+      "bytes": 7713,
+      "sha256": "fce4bd2fcbdf37ce0885a2b59895aa6b03b04ee6cb94385f1e93b5d234a82e8e"
+    },
+    "forme-backend/tests/operator_media.test.cjs": {
+      "bytes": 3095,
+      "sha256": "dcd0a12353b02b7574c5303488fc38cb170939a13c838e2a56c4028943f06eba"
+    },
+    "forme-backend/tests/test_concept_cover_gate.py": {
+      "bytes": 3402,
+      "sha256": "64fe53f37457b266a01468ca8e1dccff6cd0d3e3e7b1652998462c076cbd503a"
+    },
+    "forme-backend/tests/test_workflow.py": {
+      "bytes": 19632,
+      "sha256": "c6b44cf630064dd75dea16c9095fc81cf09dc5f321c94c6c06b0900fac3ec430"
+    },
+    "forme-backend/tests/test_cover_automation.py": {
+      "bytes": 2968,
+      "sha256": "ad2fa30c316affc57b93a0b14fc54ecc31265428ab04e01635aa176c0436fd58"
+    },
+    "forme-backend/tests/test_cloud_bridge.py": {
+      "bytes": 2941,
+      "sha256": "81c5854beaebc1b2b6bef73fe49eb80973b2df6eec07f8a43ef7db243e401cbd"
+    },
+    "forme-backend/tests/test_production_flow.py": {
+      "bytes": 6184,
+      "sha256": "17ffcf85a1cd9c0539fda15ccb0247dc61ed53753fd3dc22e09990cd049ec3ce"
+    },
+    "forme-backend/tests/test_colmap_selection.py": {
+      "bytes": 704,
+      "sha256": "1529db9559fee2013873753c0408e6bc8a8a977f3eb03def78a9b7b68ee0e4c2"
+    },
+    "forme-backend/web/order.html": {
+      "bytes": 1701,
+      "sha256": "edae4b62228d6bd3a636d9f07017b4f92140343e733bbc4c9101cfaaeb9677d2"
+    },
+    "forme-backend/web/index.html": {
+      "bytes": 5512,
+      "sha256": "b5604546153138288df2e1de4075440fac5db3ed20cdd72f8820c9be3e372a9a"
+    },
+    "forme-backend/web/prosthetic.html": {
+      "bytes": 1943,
+      "sha256": "331e5597c40dd57eca178d706c870ca6021d80d37957653451f6123922a9d4bf"
+    },
+    "forme-backend/web/create.html": {
+      "bytes": 7787,
+      "sha256": "10657468d5a5633c89d2fa0e3b519d5459324a4c710648cc8aff267c11dd724f"
+    },
+    "forme-backend/web/login.html": {
+      "bytes": 1914,
+      "sha256": "140e989f9fb32065d327644f43e9986de55bfb8c28715bf27bab7be41d92da55"
+    },
+    "forme-backend/web/account.html": {
+      "bytes": 1660,
+      "sha256": "1c82e68b7965aadefc3ae6c15659befdd97a47254179515d4a914b5ee1a12e0e"
+    },
+    "forme-backend/web/checkout.html": {
+      "bytes": 1715,
+      "sha256": "a13c6c8d4a4fca821d40244d02bfe19754a27702a610271383f51094dcb338ce"
+    },
+    "forme-backend/web/delivery.html": {
+      "bytes": 1725,
+      "sha256": "b9c9ff4720c6f5b2eece8addd075213e19ec5491221c21b1831e7e6b1b89d001"
+    },
+    "forme-backend/web/css/workflow-front.css": {
+      "bytes": 1401,
+      "sha256": "eaf64e91ebf485dfa0d8781278212b6ac3ed491f98f3604d1dcfb650fd2ba272"
+    },
+    "forme-backend/web/css/style.css": {
+      "bytes": 22272,
+      "sha256": "78e7ec73fbbc21692eb80a6996cd361a98ec41b3a780818a43937595bef5bc8e"
+    },
+    "forme-backend/web/js/create-workflow.js": {
+      "bytes": 11006,
+      "sha256": "d870f42c29db53821c73163b7711a7aae7daed4f3db4aa03cb6ff9f04e85ba9d"
+    },
+    "forme-backend/web/js/main.js": {
+      "bytes": 4453,
+      "sha256": "7761a1824c47ee74d28007fa2004c43735869e006107f3a1724e118a42b4feb0"
+    },
+    "forme-backend/web/js/i18n.js": {
+      "bytes": 9894,
+      "sha256": "f9bab9dc6dbddc830bc8eb0468fa60f2754aea52fc2c3107c87f762ced6c83a3"
+    },
+    "forme-backend/web/js/prosthetic-workflow.js": {
+      "bytes": 4848,
+      "sha256": "9573ba51e5acce376c16b8e297800b96cfc87bd44c5b7bf851eefc646a80ec97"
+    },
+    "forme-backend/web/js/vendor/model-viewer.LICENSE": {
+      "bytes": 11358,
+      "sha256": "cfc7749b96f63bd31c3c42b5c471bf756814053e847c10f3eb003417bc523d30"
+    },
+    "forme-backend/web/js/vendor/model-viewer.min.js": {
+      "bytes": 1068903,
+      "sha256": "283b0672384614b4847636c306fc93fe4b1fcadc76d668b4e47f0ca76bcf033b"
+    },
+    "forme-backend/web/assets/cover-hero.png": {
+      "bytes": 1622647,
+      "sha256": "6967780f3bb75871c19ae23a1023d4d10530d57c8d5d8d7f5f0791152bae3f13"
+    },
+    "forme-backend/web/assets/templates/05-magnetic.png": {
+      "bytes": 594907,
+      "sha256": "0b5b5101b47f46984bd82a15fddbf965e858548891c89c6633865a16186d4c44"
+    },
+    "forme-backend/web/assets/templates/01.png": {
+      "bytes": 642324,
+      "sha256": "8cdd133d6cf0a96d03f7e00dd1ded9851d32af258fc7b602938da50bd820633d"
+    },
+    "forme-backend/web/assets/templates/03.png": {
+      "bytes": 538985,
+      "sha256": "d2840ce585e320970a902263242a277749a4fc7f3eadeddce04cfd4d4a032c93"
+    },
+    "forme-backend/web/assets/templates/02.png": {
+      "bytes": 581505,
+      "sha256": "62b0db220df28fdf68d8a582a9535eaf188b5d6c783ef6ad309b2a8a2bd3808b"
+    },
+    "forme-backend/web/assets/templates/06.png": {
+      "bytes": 521167,
+      "sha256": "02e313fdc7c1d1ce64b9a26ad7cf39bf5788a5fc3e06d70d2e248a4161d8294c"
+    },
+    "forme-backend/web/assets/templates/05.png": {
+      "bytes": 591719,
+      "sha256": "9e693aae5b94ff5aca732680b2de5b870b80025bb35491da21a34f18bb8073a1"
+    },
+    "forme-backend/web/assets/templates/04.png": {
+      "bytes": 565317,
+      "sha256": "facce271793f7d42a65a7bd4ee58ccfc2b21bf6a7446066f6986e84f01cb16dc"
+    },
+    "forme-backend/web/assets/templates/05-magnetic.glb": {
+      "bytes": 6281908,
+      "sha256": "fd2192562c0292216c0df08059d2790e586c828c9a4eecbb70da317fa926832a"
+    },
+    "forme-backend/web/assets/templates/01.glb": {
+      "bytes": 6252908,
+      "sha256": "6ee4dda0e0b22364664516a341f4d0dc368a67ad45aba277fd042f2ad7941397"
+    },
+    "forme-backend/web/assets/templates/02.glb": {
+      "bytes": 6262020,
+      "sha256": "aef6e46d5221f0bcb2f414d21cb3a35dae27719cb24b502e609731a31d3ad4f3"
+    },
+    "forme-backend/web/assets/templates/03.glb": {
+      "bytes": 6296656,
+      "sha256": "b2fced69592b54c00e63fa0a11454a6dd2fad8676e8ef6d564f24714e5ebab89"
+    },
+    "forme-backend/web/assets/templates/06.glb": {
+      "bytes": 6200820,
+      "sha256": "218180f23df84424149c9d00caef3fc471d1591cf43f19cc41b9dd51ed37f3d0"
+    },
+    "forme-backend/web/assets/templates/04.glb": {
+      "bytes": 6275464,
+      "sha256": "925a2c6e7be65b78b50d20e25983317e164069c88b566cbbde5972b101aaaba9"
+    },
+    "forme-backend/web/assets/templates/05.glb": {
+      "bytes": 6262524,
+      "sha256": "edbe77fe0a4deb81e6355d00b03310db851f875112a60f6da62b6d1aa9dd2a26"
+    },
+    "forme-backend/deploy/connect-local-backend.sh": {
+      "bytes": 388,
+      "sha256": "2b43eaac87577fb3b6d141e97ea47c9017ace252b7a4e7f7a78e907baa4a8aee"
+    },
+    "forme-backend/deploy/README.md": {
+      "bytes": 1951,
+      "sha256": "23fd8f8b9ebfc5c4ddedcc9a5bf5f9e1a27dd0cee5e4753f7fa867e8ea9b1f1e"
+    },
+    "forme-backend/deploy/nginx-forme.conf.example": {
+      "bytes": 1801,
+      "sha256": "f0dac488eab3bdc5b67764b1f47f5107e50fc77d35f2bd2680ddd1687c121095"
+    },
+    "forme-backend/ONE_CLICK_STL_ZH.md": {
+      "bytes": 2280,
+      "sha256": "fcafbe60ee8b8cc6e020a981ce2d2de555fe7a3369e924de9786227d85d71f38"
+    },
+    "forme-backend/stop-all.command": {
+      "bytes": 369,
+      "sha256": "e26496f97c571bd46983141f47f7e1ff39d81f91aa64bb371190b5bb0956b4d1"
+    },
+    "forme-backend/SCAN_WORKFLOW_ZH.md": {
+      "bytes": 4622,
+      "sha256": "3fd060cc56433f2192a8a3aecfede9ca38b4baf91845939ab96c6f9e9ee31969"
+    },
+    "forme-backend/COVER_GENERATION_INTEGRATION_ZH.md": {
+      "bytes": 5518,
+      "sha256": "f05486684479b24c668beab918230f4429eda6ff128deaf7d3ae1e3f920074d6"
+    },
+    "forme-backend/pyproject.toml": {
+      "bytes": 421,
+      "sha256": "ee8396897c665f50916b33bbf78683e7c98fd94aff98b7d4e71b55d4b9b499ca"
+    },
+    "forme-backend/FRONTEND_SOURCE.md": {
+      "bytes": 558,
+      "sha256": "1edd59c8bdc553ec688af600c749bf10290106973d7de1c5f1a325da2e38e3f9"
+    },
+    "forme-backend/start-all.command": {
+      "bytes": 333,
+      "sha256": "6820f3a0d41f5660d5f49225fc69172ed179fc8787ba7ecf8921a07d94ae2d51"
+    },
+    "forme-backend/start-tunnel.command": {
+      "bytes": 1321,
+      "sha256": "aa34ef674aeb33196ea233fca6156256a75436cb9d3f2a0ea193cd9c04bb4ef7"
+    },
+    "forme-backend/PRODUCTION_WORKFLOW_ZH.md": {
+      "bytes": 5252,
+      "sha256": "a6b7cac3e551dee22ae12762891d4aba925dd8e7faa5ac969c3826f6f1685564"
+    },
+    "forme-backend/README.md": {
+      "bytes": 10937,
+      "sha256": "a377a43da9f54f3710c5d4609f0e211d658b08a1a0a7320a66d601c78fd355b9"
+    },
+    "forme-backend/start-bridge.command": {
+      "bytes": 173,
+      "sha256": "469f4c854f0d4879af7c868bef4120e4d4bddb751304a66e6c9d9a1e2869a185"
+    },
+    "forme-backend/run-local.sh": {
+      "bytes": 2543,
+      "sha256": "fbfb059fd1efc40749ddd00ead3db1005ff634850addeea297795ef55bbd4c5b"
+    },
+    "forme-backend/start-demo.command": {
+      "bytes": 213,
+      "sha256": "0da5da6e689c145bdec2eb23ef2cde8221d90145d9dee20ec5e90c98c86f7475"
+    },
+    "work-buddy-handoff/automation/register_cover_trial.py": {
+      "bytes": 3278,
+      "sha256": "512421180cdacb95a20a2f5704792cd6e7eadc9c3f6c94e60eeea252a805b4a0"
+    },
+    "work-buddy-handoff/automation/legacy_builder.py": {
+      "bytes": 9623,
+      "sha256": "5b9805c004523d4bf22e6f99e68ea36785f2f24b8883145f8946d08e4fc43688"
+    },
+    "work-buddy-handoff/automation/build_iteration.py": {
+      "bytes": 6325,
+      "sha256": "59dca25d4955fd96583b111ecb4b426f4e36e4ac1886d15149153b127e5f82a0"
+    },
+    "work-buddy-handoff/automation/seed_spec.json": {
+      "bytes": 200,
+      "sha256": "575ca4fc32d571b55d395175570212533a1b588ab22ba62cd5db24264c707bf1"
+    },
+    "work-buddy-handoff/automation/agent_loop.py": {
+      "bytes": 11920,
+      "sha256": "5e128b5ca4e5cebe76f1c644269e9de7f2c45d508008f6cdd731f376607550b2"
+    },
+    "work-buddy-handoff/automation/workbuddy_mcp.py": {
+      "bytes": 9983,
+      "sha256": "0389ddb6dd86d06dd9cdf0d358d69673362bb2d9aa10be32bdd7ce5aedf76942"
+    },
+    "work-buddy-handoff/automation/fit_template.py": {
+      "bytes": 6849,
+      "sha256": "a03ce4cc4c91904b217e61c29122c68d64ded411eac7bbee166daaa8bc87c829"
+    },
+    "work-buddy-handoff/automation/template_library.py": {
+      "bytes": 5769,
+      "sha256": "760342d329e545178b7e07038518d39efc7a2b8887ac1db2a5bc780f49307c09"
+    },
+    "work-buddy-handoff/automation/reference_preflight.py": {
+      "bytes": 2564,
+      "sha256": "e5c8a3bbd4e70cefd0deaadcb75c434d439cbdb078fcb1026d36aeb2fce5d7e1"
+    },
+    "work-buddy-handoff/skills/forme-scan-workflow/SKILL.md": {
+      "bytes": 3905,
+      "sha256": "795f1126a0807cfe7083f389a0c11f251a33826b295a0336c360e926fee3dbcd"
+    },
+    "work-buddy-handoff/skills/forme-scan-workflow/references/geometry.md": {
+      "bytes": 4433,
+      "sha256": "a0168abdd8d70a59d4bc0d6ca649772b7bfdc1c7032e94ea89fe3b8cec66ff52"
+    },
+    "work-buddy-handoff/skills/forme-scan-workflow/references/accepted-method.md": {
+      "bytes": 1998,
+      "sha256": "423748a601e998b349bb069206283d1eca8b93f8e84cbeaa5029be8c8f0ab1da"
+    },
+    "work-buddy-handoff/skills/forme-scan-workflow/references/operation.md": {
+      "bytes": 4171,
+      "sha256": "67dd33b8af7b092ede5cb363d8a2c9dcec197a986030b3b0c2852a9769c82ff8"
+    },
+    "work-buddy-handoff/production-bases/06/rear.stl": {
+      "bytes": 27045184,
+      "sha256": "888f790d4bcc6d44181efd8ab8e6379ed749bb1cd7b4581b207a5504059b8a75"
+    },
+    "work-buddy-handoff/production-bases/06/manifest.json": {
+      "bytes": 314,
+      "sha256": "3e48b7e4bd2b130b7e3cf32eacd7ec88baaab4a08c6828e09051df640b6890bf"
+    },
+    "work-buddy-handoff/production-bases/06/front.stl": {
+      "bytes": 27048084,
+      "sha256": "8ebdebf2dca6e8c9f831a607eedd1d2b2c60007655f0a667d9490fa9aa7e27c4"
+    },
+    "work-buddy-handoff/README.md": {
+      "bytes": 4111,
+      "sha256": "625deeb3f4df4385fac36609c8f1e58318bac990dae78f7dd62c014e81a7ccea"
+    },
+    "work-buddy-handoff/TEMPLATE_FIT_WORKFLOW.md": {
+      "bytes": 7267,
+      "sha256": "55f22492d7251160dfe1fad5944a04f0d358a5339a788643db0f19dd0ecd3fd5"
+    },
+    "work-buddy-handoff/TEMPLATE_ADAPTATION_TASK.md": {
+      "bytes": 8091,
+      "sha256": "abe4376f10f19de2ce68234a46c805944f06d2f8a6447f8bb3e4b13a9c3ce377"
+    },
+    "work-buddy-handoff/WORK_BUDDY_TASK.md": {
+      "bytes": 3461,
+      "sha256": "743d7666d79148a01d89787e2a25b118b5818aef320480a7ddc1a7b8c8394df1"
+    },
+    "work-buddy-handoff/COVER_GENERATION_POLICY.json": {
+      "bytes": 2077,
+      "sha256": "de62a31268f1ce1f76e4ab9a5ef3a8d8fc746e7e8905ed9d0b9bb7e28473f34c"
+    },
+    "work-buddy-handoff/templates/catalog.json": {
+      "bytes": 14838,
+      "sha256": "667ca40a780a921d319cb65848200383f12df369d5f496fa22308e19640f9392"
+    },
+    "work-buddy-handoff/templates/README.md": {
+      "bytes": 1624,
+      "sha256": "7deb0947485aabca3150871da4d6ac9c4d3bf313f8948006d4753d2b5aebe59d"
+    },
+    "work-buddy-handoff/templates/03/交付检查.md": {
+      "bytes": 1048,
+      "sha256": "26279cf061523ba9984b8f10eb95811af07ef409e7f07210159c6e7bca35db70"
+    },
+    "work-buddy-handoff/templates/03/使用说明.md": {
+      "bytes": 2440,
+      "sha256": "13d92d1c956e242fbe0a22c107d527749874446dc7b7c592f29dbf919026e5c7"
+    },
+    "work-buddy-handoff/templates/04/交付检查.md": {
+      "bytes": 1048,
+      "sha256": "26279cf061523ba9984b8f10eb95811af07ef409e7f07210159c6e7bca35db70"
+    },
+    "work-buddy-handoff/templates/04/使用说明.md": {
+      "bytes": 2486,
+      "sha256": "e6a78db59f5effd1523bc16eaf156cb8dc4d94a48527e7b571b8e787e737e742"
+    },
+    "work-buddy-handoff/templates/05/交付检查.md": {
+      "bytes": 1048,
+      "sha256": "26279cf061523ba9984b8f10eb95811af07ef409e7f07210159c6e7bca35db70"
+    },
+    "work-buddy-handoff/templates/05/使用说明.md": {
+      "bytes": 2464,
+      "sha256": "8204259b3a57f651dae0a2566be4968fd6682e24c8fa33f39120ef46aa76d050"
+    },
+    "work-buddy-handoff/templates/02/交付检查.md": {
+      "bytes": 1048,
+      "sha256": "26279cf061523ba9984b8f10eb95811af07ef409e7f07210159c6e7bca35db70"
+    },
+    "work-buddy-handoff/templates/02/使用说明.md": {
+      "bytes": 2351,
+      "sha256": "e2a426bacccf464de26230f3c4c2eacff46720a4e8a7321b9e55d4c1effe669c"
+    },
+    "work-buddy-handoff/templates/05-magnetic/使用说明.md": {
+      "bytes": 3236,
+      "sha256": "bcefe7fa5260220798a4d18f24caf60240e6435312f61e02bda8e956375818a2"
+    },
+    "work-buddy-handoff/templates/01/交付检查.md": {
+      "bytes": 1048,
+      "sha256": "26279cf061523ba9984b8f10eb95811af07ef409e7f07210159c6e7bca35db70"
+    },
+    "work-buddy-handoff/templates/01/使用说明.md": {
+      "bytes": 2691,
+      "sha256": "03f8812e2112863fe436b4683d6e3f252180c230e7c4360bc1a90817b0e03e28"
+    },
+    "work-buddy-handoff/templates/06/交付检查.md": {
+      "bytes": 1048,
+      "sha256": "26279cf061523ba9984b8f10eb95811af07ef409e7f07210159c6e7bca35db70"
+    },
+    "work-buddy-handoff/templates/06/使用说明.md": {
+      "bytes": 2584,
+      "sha256": "458f77c88cce3c53197a0c47c03454a5fe463fcb425fafd2ccaa6755aa025457"
+    },
+    "research/hunyuan31-comparison/compare_stl_cloud.py": {
+      "bytes": 10498,
+      "sha256": "279ec79f5bd3edfb3258b4a848f1318b8c5a769a8e2129f120e92cb2a53b16e8"
+    },
+    "research/hunyuan31-comparison/prepare_blender_review.py": {
+      "bytes": 1220,
+      "sha256": "0b3f996c8a0b2530b781afe6a769a0860e9da0867ec8574e0b6c9b8b354abc6b"
+    },
+    "research/hunyuan31-comparison/review_orientation_candidates.py": {
+      "bytes": 2256,
+      "sha256": "f711754811057c2a788059ea682efb0cb415e6edda749235336cf0545d5431e8"
+    },
+    "research/hunyuan31-comparison/explore_geometry.py": {
+      "bytes": 3068,
+      "sha256": "8dd59aa69eb582b913f6a4c8286ca84c535eb1367ca99a289cc30520c2a348f9"
+    },
+    "research/hunyuan31-comparison/build_scale_review_blender.py": {
+      "bytes": 9125,
+      "sha256": "25acc310aa9ccb45d8f0896e185d978e1949470c27a51bea4caa27a3fcd23939"
+    },
+    "research/independent-silhouette/render_preview.py": {
+      "bytes": 2048,
+      "sha256": "715003d2670cbb941719bb0a4f7d982bfa25e032c3be55d0df4b151f7555f559"
+    },
+    "research/independent-silhouette/build_hull.py": {
+      "bytes": 7936,
+      "sha256": "4693d4bc8183e29ddbcc935511d4a8d4a09eb981e1f4b7b5429d6a9e7907bfe6"
+    },
+    "research/independent-silhouette/show_axis.py": {
+      "bytes": 1511,
+      "sha256": "d0d26c075aa7ac238d34f86161fb90b1c746c1fce7d87bf69d3a5946e29e056e"
+    },
+    "research/independent-silhouette/review_masks.py": {
+      "bytes": 1250,
+      "sha256": "107a62dd3ca947f854ad9e440f39c03501d34e37e239c570e779a739b6d83f44"
+    },
+    "research/independent-silhouette/review_sections.py": {
+      "bytes": 1070,
+      "sha256": "ebd75e8a5382e9626a01096df23ac51750fbe7408a45e42ee0b6b32c2926ea30"
+    },
+    "research/blender-cover-redesign/check_export.py": {
+      "bytes": 705,
+      "sha256": "e3498508df15541167f8a075a208587a6a35fbc37b3be8730ddb5ab997279918"
+    },
+    "research/blender-cover-redesign/clean_export.py": {
+      "bytes": 1398,
+      "sha256": "9297a129593970b2b59c800a9ba329b68257b5322888e021930c9abf33fbff8c"
+    },
+    "research/blender-cover-redesign/make_fit_coupons.py": {
+      "bytes": 2670,
+      "sha256": "27379f95ab9de26263121d85cf898d8f02784cf16eb90aa2497a65d4daa4a3e7"
+    },
+    "research/blender-cover-redesign/finalize_scene.py": {
+      "bytes": 859,
+      "sha256": "30370b3dbe64ab0d13e6204d58d2f35f83b4827f4b5496bb9359a31f609e9438"
+    },
+    "research/blender-cover-redesign/model_in_blender.py": {
+      "bytes": 9623,
+      "sha256": "5b9805c004523d4bf22e6f99e68ea36785f2f24b8883145f8946d08e4fc43688"
+    },
+    "research/demo-cover-2026-10-12/attach_cloud_replay.py": {
+      "bytes": 4740,
+      "sha256": "a1459bd2ad014570704bd5c8714e0ad3036a9d6f615e278921101bc9c0da84fa"
+    },
+    "research/demo-cover-2026-10-12/make_demo_video.py": {
+      "bytes": 3020,
+      "sha256": "2a9fbbb0bdaa4e7856217d546081ee61dfd681ca1e9e280f1b21891d4858efb3"
+    },
+    "research/demo-cover-2026-10-12/submit_cloud_demo.py": {
+      "bytes": 4214,
+      "sha256": "3586045bd0b7ebe75a15477f1dfc23e0811d4d702c5882c4279d49b2b43d5a40"
+    },
+    "research/demo-cover-2026-10-12/run_trial.py": {
+      "bytes": 10467,
+      "sha256": "d112213186489997452b129e876f5489f783eb213cddb802491ab6c9dd761cf1"
+    },
+    "research/analysis/render_installation.py": {
+      "bytes": 5792,
+      "sha256": "b61388dd885719ab4504c21766b79e445261bf2dd6d98e9171dcd3ed5cb340a1"
+    },
+    "research/analysis/validate_pointcloud_images.py": {
+      "bytes": 7836,
+      "sha256": "5d9e2a810a16d9237e177003cf72506992a8e6e776ebfe9beffeef9e23d5f95e"
+    },
+    "research/analysis/render_cover.py": {
+      "bytes": 2034,
+      "sha256": "335329f43ebfa7e0d519e7b8eed3dcf31b4510712dc1fde54c6db5ea3ba0197d"
+    },
+    "research/analysis/isolate_prosthesis.py": {
+      "bytes": 2315,
+      "sha256": "4387d98859d10a2f82da2d296ecceffe606a600824dbc66eff9dcaf3098b96a3"
+    },
+    "research/pointcloud-axis-corrected/audit_scan_intersection.py": {
+      "bytes": 2208,
+      "sha256": "489c4470cabb2e3e3d73242f24e17882c1282d80d82410064c40401652f1e646"
+    },
+    "research/pointcloud-axis-corrected/render_preview.py": {
+      "bytes": 1542,
+      "sha256": "f2bb04e559476d400705f7a09587dcd034c303c71daac3aa1fe33aaad5fa2d01"
+    },
+    "research/pointcloud-axis-corrected/fit_axis_from_sections.py": {
+      "bytes": 2075,
+      "sha256": "4b72a6572e83dcf8ff61d5ec8f67935611b1c6e87787633ae18a695dab1f2d94"
+    },
+    "research/pointcloud-axis-corrected/inspect_cross_sections.py": {
+      "bytes": 2632,
+      "sha256": "8316876f5a02925ec48876c284dcc3c327a282e88bc808620fd8799cd847a712"
+    },
+    "research/photo-hull-cover/fit_rim_two_views.py": {
+      "bytes": 3654,
+      "sha256": "1679af65f88f4551836a4800b01483d38cc71d438bbf0aad7b9697c2a09d2fa9"
+    },
+    "research/photo-hull-cover/build_photo_hull_profiles.py": {
+      "bytes": 5711,
+      "sha256": "9b724d084ebfb5881e9cfb03ad0d130a22a3485eb140f2b8cd3a84b2260ec29d"
+    },
+    "research/photo-hull-cover/check_rim_other_views.py": {
+      "bytes": 1646,
+      "sha256": "51f71cc00897788f6c692e2c10ae605ae5986c9ea20c20d6bde3febde3e53cb5"
+    },
+    "research/photo-hull-cover/review_upper_rim_projection.py": {
+      "bytes": 2371,
+      "sha256": "21e0c1bddd3483f350c58f722ef56c523b9f8166a52aee554ced97dc2764f3ad"
+    },
+    "research/photo-hull-cover/explore_rim_edges.py": {
+      "bytes": 2880,
+      "sha256": "6076ef1ddc6cf9b98aef628e0f6fdf53ce0b34bdf5e42f671dae8d952b64a260"
+    },
+    "research/photo-hull-cover/compare_to_hunyuan_v2.py": {
+      "bytes": 7506,
+      "sha256": "5eeec6fdaa0b8bc7a1b428584532295de072bcba6648062e3dd32818c245eb94"
+    },
+    "research/photo-hull-cover/build_body_shell.py": {
+      "bytes": 5593,
+      "sha256": "15b94586817d9856dc4c1e564b125922e5ebb1778692105a3b33d5b2efe7b0a5"
+    },
+    "research/photo-hull-cover/trace_rim_from_photo.py": {
+      "bytes": 3337,
+      "sha256": "55357d5ac23eeba91159bad697d8bff3c1c0f93fb90a33b05035d7084e79b729"
+    },
+    "research/deepseek-blender-trial/candidate_blender_v2.py": {
+      "bytes": 8589,
+      "sha256": "7e60d4f5f10a4a80e255f26b473217319d981b572e6c99955a357a2166145109"
+    },
+    "research/deepseek-blender-trial/build_iteration.py": {
+      "bytes": 6325,
+      "sha256": "59dca25d4955fd96583b111ecb4b426f4e36e4ac1886d15149153b127e5f82a0"
+    },
+    "research/deepseek-blender-trial/request_first_pass.py": {
+      "bytes": 6754,
+      "sha256": "002568988e26cf61fb6be5f347515aca88e61756f9eaae2e172d358280fd990c"
+    },
+    "research/deepseek-blender-trial/agent_loop.py": {
+      "bytes": 11920,
+      "sha256": "5e128b5ca4e5cebe76f1c644269e9de7f2c45d508008f6cdd731f376607550b2"
+    },
+    "research/deepseek-blender-trial/candidate_blender_v2_run.py": {
+      "bytes": 8579,
+      "sha256": "91d8e06755f513b41a7e2de699bb10639901dfebfa8a82345a051f847fba7fbd"
+    },
+    "research/deepseek-blender-trial/candidate_blender.py": {
+      "bytes": 4313,
+      "sha256": "df2250fa372a877013b7c38ee2ddc92667aeb335209930178c360d826bc98210"
+    },
+    "research/deepseek-blender-trial/request_revision.py": {
+      "bytes": 5451,
+      "sha256": "750e6e3c79943bb0b84c467c88651d73b1418bf4b49f625a80760d133719dd4d"
+    },
+    "research/deepseek-blender-trial/run_reviewed_candidate.py": {
+      "bytes": 3057,
+      "sha256": "197d55491cb9fdc8d1101b22d04203fb69d8a060705e3e41a6dac55d33d8fb0c"
+    },
+    "research/pointcloud-contour-prototype/build_partial_shell.py": {
+      "bytes": 14721,
+      "sha256": "50c15ae8f29752d4c4c62cdfba2aed4fa9e305ce132bd4aa8e5889ae103486f2"
+    },
+    "research/hunyuan31-v2-cover-prototype/build_cover.py": {
+      "bytes": 12427,
+      "sha256": "fea38ad6c1b095e08bdc151a06bc7346f7fb5b25e967a367af3c7615a7c832f9"
+    },
+    "research/hunyuan31-v2-cover-prototype/render_review.py": {
+      "bytes": 4135,
+      "sha256": "1f445b48218b245a8d5f01806ed44ba8606e8590fb616da56148907a7210e6e9"
+    },
+    "research/gs-experiment/visual_hull_cover.py": {
+      "bytes": 6672,
+      "sha256": "64df273b0df6dfe85d8b162cc8e4f6d95d8d5c10f96a568ab47c34154fde5764"
+    },
+    "research/gs-experiment/prepare_dataset.py": {
+      "bytes": 5005,
+      "sha256": "bef0a3f4b057b0b286494c67cb2b9ef3e6d27fd5aba66d7ee6dcd15513559b26"
+    },
+    "research/gs-experiment/visual_hull_slices.py": {
+      "bytes": 3120,
+      "sha256": "c4a01266410bf350157cd281d81137e74898acdb39412042ac4e01e8f17c3e50"
+    },
+    "research/gs-experiment/prepare_cover_input.py": {
+      "bytes": 4495,
+      "sha256": "1f3dc512b181e227dc49b59ce1cdeca65eba0ef03b271e10c012cd19509c89aa"
+    },
+    "research/gs-experiment/view-3dgs.command": {
+      "bytes": 181,
+      "sha256": "4ee4caaa39b26664da96c0f7d34feaab43fce1ccfc14278018db808b37168b53"
+    },
+    "research/gs-experiment/save_preview_fcstd.py": {
+      "bytes": 838,
+      "sha256": "f0af9e79975ca0c24fb750b11e56f22cf7e33b2b28b967df3692ef0b93e18c76"
+    },
+    "research/gs-experiment/rebuild-from-colmap.command": {
+      "bytes": 1143,
+      "sha256": "175e06bf2746d897698a010c7da14a553295ad0c34e0ad9ba1e9af34e493cee3"
+    },
+    "research/gs-experiment/smooth_profile_cover.py": {
+      "bytes": 5608,
+      "sha256": "c9589f63ae5f91b75a735f5bbeb54e5201622edd34f2034e6c60cd1a3c8d35be"
+    },
+    "research/gs-experiment/project_cad.py": {
+      "bytes": 2695,
+      "sha256": "ea9cea746ba5a5da82657247dce587c80e79347c1fcad3ef3710186d8ab1b7d7"
+    },
+    "research/pixal3d-trial/inspect_mesh.py": {
+      "bytes": 1589,
+      "sha256": "ebab0e7bf2a65e7c51bc6be0f563c51f24d08042edba2183bc0fbf16e99694e1"
+    },
+    "research/pixal3d-trial/prepare_views.py": {
+      "bytes": 10092,
+      "sha256": "5e85e69ec7eeb88511571e30b3586dea7d5cb035dbae52dc53436659230e5c3a"
+    },
+    "research/pixal3d-trial/render_mesh_blender.py": {
+      "bytes": 4161,
+      "sha256": "ff52d336aa4386db5a412359bfbf95c47bb27a99637b77f63708dcfbca9e9ca9"
+    },
+    "research/pointcloud-direct-cover-baseline/audit_scan_intersection.py": {
+      "bytes": 2208,
+      "sha256": "489c4470cabb2e3e3d73242f24e17882c1282d80d82410064c40401652f1e646"
+    },
+    "research/pointcloud-direct-cover-baseline/render_preview.py": {
+      "bytes": 1542,
+      "sha256": "f2bb04e559476d400705f7a09587dcd034c303c71daac3aa1fe33aaad5fa2d01"
+    },
+    "research/market-prior-trial/run_trial.py": {
+      "bytes": 10467,
+      "sha256": "d112213186489997452b129e876f5489f783eb213cddb802491ab6c9dd761cf1"
+    },
+    "research/pointcloud-full-cover-prototype/build_full_cover.py": {
+      "bytes": 15213,
+      "sha256": "aaf1eddd78586444acd8bc5efc0d7075ddd9343d69056b8acdca98e68ded0d19"
+    },
+    "research/alpha-wrap-trial/render_comparison.py": {
+      "bytes": 1710,
+      "sha256": "9e1cff70afabd16c5087b0ee46c3445196b79c4f00054fbef2e396fe7f448482"
+    },
+    "research/alpha-wrap-trial/build_constrained_shell.py": {
+      "bytes": 4473,
+      "sha256": "426354b9493842febbc0fce1c12703427975f31bf86b1067d3d7d18827811fbd"
+    },
+    "research/alpha-wrap-trial/make_eval_queries.py": {
+      "bytes": 2612,
+      "sha256": "46270e9f8b25b0edf0aa8171863ff297898fbfa9f807c0334e9c1933fc7d84d1"
+    },
+    "research/alpha-wrap-trial/prepare_union_trial.py": {
+      "bytes": 1297,
+      "sha256": "d9c953d95f4caf609ff44931affb292e95ba6ae1640a917cfbd885e0ad7f395e"
+    },
+    "research/alpha-wrap-trial/summarize.py": {
+      "bytes": 2235,
+      "sha256": "88759310224d6c518af294f086e78ad333db844fcbb631a5f47f0607d0219a0a"
+    },
+    "research/alpha-wrap-trial/alpha_wrap_points.cpp": {
+      "bytes": 1234,
+      "sha256": "4fc5b5322049ecd91491163aeea0bcbd25a58f89e84590dc9650e8b182a2beed"
+    },
+    "research/alpha-wrap-trial/evaluate_wrap.cpp": {
+      "bytes": 1438,
+      "sha256": "666bc3b848be9e53fc44ef3b6e66c49aa944826a8741e33f35dd6a9dba20f9a6"
+    },
+    "research/alpha-wrap-trial/prepare_input.py": {
+      "bytes": 2002,
+      "sha256": "1c7255ac46ff87e1d24ad56f80d07dd3506b9d0ce70940d9d04dfb75ea081eca"
+    },
+    "research/reconstruction/dense/run-colmap-geometric.sh": {
+      "bytes": 668,
+      "sha256": "09cf1dc8657c995fea127172ae84c3abde92ca4c4389307c183782d8db9b30cb"
+    },
+    "research/reconstruction/dense/run-colmap-photometric.sh": {
+      "bytes": 671,
+      "sha256": "cd84014318862b3dbf0437157d2682824b9f92e00c2a748b9ea6cf609fb2c16b"
+    },
+    "research/hunyuan31-v2-comparison/compare_v2.py": {
+      "bytes": 8077,
+      "sha256": "b695053d00dae9f569c6e8dd21e2be20f7da3ce5873fa18175989cec8bea1598"
+    },
+    "research/hunyuan31-v2-comparison/build_scale_review_blender.py": {
+      "bytes": 9328,
+      "sha256": "ff82b121fe63dda156dbeb9973635c4079b6e578b53f6e7b1bf3ea643aea48bd"
+    },
+    "research/colmap-retune-20261002/compare_depth.py": {
+      "bytes": 2862,
+      "sha256": "845c067f54c6c82888658a81be3f8b4561f5fb48ee943ca37a306380431b8c0c"
+    },
+    "research/colmap-retune-20261002/evaluate.py": {
+      "bytes": 5241,
+      "sha256": "ed599d1c4e5ed84f047bd104091186db6e09a9c4f5523490af87e3dd490e3516"
+    },
+    "research/colmap-retune-20261002/smooth-mesh/render_preview.py": {
+      "bytes": 3024,
+      "sha256": "dbb43a7e79b5376f21b9d8ab31487f51d15765a6e25fb0c2997f2ad79702823c"
+    },
+    "research/colmap-retune-20261002/smooth-mesh/process_mesh.py": {
+      "bytes": 2308,
+      "sha256": "aee1fc2c0c74febbe441427de38ea90bc4f468fd71076a23af8037e758503234"
+    },
+    "research/colmap-retune-20261002/smooth-mesh/prepare_alpha_input.py": {
+      "bytes": 2239,
+      "sha256": "719add4acb1b62edd86aaab3f462f9c9038d71fa5f4c2ff39e3b2063b13e855d"
+    },
+    "research/rebuild-cover.command": {
+      "bytes": 1004,
+      "sha256": "0f8085b64904673d4b49ef017697497f972604686158b37e3d7cff60c5324976"
+    },
+    "research/compare_independent_hull.py": {
+      "bytes": 3415,
+      "sha256": "621987fb751029c9e165873f512d79b3b7737214791ce097e41c05a023106236"
+    }
+  }
+}

@@ -1,5 +1,7 @@
 # Forme 云端账号、设计与订单平台
 
+**2026-10-17：完整Mac後端與Agent流程已入庫。** 目錄、恢復方式和資料邊界見 [完整源碼交接](docs/FULL_SOURCE_HANDOFF_ZH.md)。新版控制台與STL流程見 [點雲主流程](forme-backend/SCAN_WORKFLOW_ZH.md)。本機流水線目前已關閉。
+
 基于 `Mafubo-Mark/forme` 的提交 `81522d76856ddc6baeaf98ef68d3d063b9877063` 扩展。
 
 本次版本增加邮箱／账号注册登录、按用户持久保存设计、视频与建模历史、报价后下单、付款凭证及管理员审核、物流更新、确认收货，以及中文管理平台。云端服务是 `cloud/app.py`，公开站点仍为 `dist/`。数据库使用 MySQL，用户密码使用 scrypt 哈希，视频与凭证放私有目录。

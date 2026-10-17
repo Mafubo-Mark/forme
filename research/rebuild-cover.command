@@ -1,0 +1,20 @@
+#!/bin/zsh
+set -eu
+BASE=/Volumes/extra/workspace1
+CASE="$BASE/projects/test4"
+APP="$BASE/projects/pointcloud-cover-cad"
+PY="$BASE/apps/drawing-with-gaussians/.venv/bin/python"
+OUT="$CASE/cad-review"
+mkdir -p "$OUT" "$BASE/app-data/tmp"
+export TMPDIR="$BASE/app-data/tmp"
+export PYTHONPATH="$BASE/apps/FreeCAD.app/Contents/Resources/lib"
+export FREECAD_USER_HOME="$BASE/app-data/freecad"
+export FREECAD_USER_DATA="$BASE/app-data/freecad"
+export XDG_CONFIG_HOME="$BASE/app-data/config"
+export XDG_DATA_HOME="$BASE/app-data/data"
+export XDG_CACHE_HOME="$BASE/app-data/cache"
+"$PY" "$CASE/analysis/isolate_prosthesis.py" "$CASE/reconstruction/dense/fused.ply" "$CASE/analysis/isolation-config.json" "$CASE/analysis/isolated-prosthesis.ply"
+"$PY" "$APP/pointcloud_to_stations.py" "$OUT/config.json" "$OUT/sections.json"
+"$BASE/apps/FreeCAD.app/Contents/Resources/bin/python" "$APP/generate_c_shell.py" "$OUT/sections.json" "$OUT"
+"$PY" "$APP/validate_output.py" "$OUT"
+print -r -- "$OUT/fitted_c_cover.FCStd"
