@@ -1,37 +1,129 @@
-# Forme 云端账号、设计与订单平台
+# Forme
 
-**2026-10-17：完整Mac後端與Agent流程已入庫。** 目錄、恢復方式和資料邊界見 [完整源碼交接](docs/FULL_SOURCE_HANDOFF_ZH.md)。新版控制台與STL流程見 [點雲主流程](forme-backend/SCAN_WORKFLOW_ZH.md)。本機流水線目前已關閉。
+*A hackathon project exploring a video-to-prosthetic-cover workflow.*
 
-基于 `Mafubo-Mark/forme` 的提交 `81522d76856ddc6baeaf98ef68d3d063b9877063` 扩展。
+## Our Technical Journey
 
-本次版本增加邮箱／账号注册登录、按用户持久保存设计、视频与建模历史、报价后下单、付款凭证及管理员审核、物流更新、确认收货，以及中文管理平台。云端服务是 `cloud/app.py`，公开站点仍为 `dist/`。数据库使用 MySQL，用户密码使用 scrypt 哈希，视频与凭证放私有目录。
+We set out to turn a phone video of an existing prosthesis into a personalized, two-part cover that could be fabricated with a 3D printer. The difficult part was recovering geometry that would actually fit: the opening, the body, the lower connector, and the protruding bolt all needed different treatment.
 
-当前演示站为 `https://forme.agents-time.com/`。管理页面是 `/admin`（亦可访问 `/admin.html`），使用 `forme` 与服务器私有配置中的强密码。管理员可从页面打开本机建模工作流；本次实际结果见 [云站与 Mac 验收记录](deploy/LIVE_ACCEPTANCE_2026-10-13_ZH.md)，初次配对步骤见 [Claude Code 接通清单](deploy/CLAUDE_CONNECT_AGENTS_TIME_ZH.md)。通用的远程操作与任务桥接说明分别见 [远程管理说明](deploy/REMOTE_OPERATOR_ZH.md) 和 [工作器连接说明](deploy/CLOUD_MAC_BRIDGE_ZH.md)。
+Our route changed through reconstruction experiments, generated models, template fitting, and physical trials. This repository includes both the current implementation and the research scripts behind those decisions.
 
-Mac 后台现可双击一键启动，候选交付以 STL 为主。启动方法、文件清单与质量边界见 [Mac 一键启动与 STL 说明](worker/local-backend-overlay/ONE_CLICK_STL_ZH.md)；`worker/local-backend-overlay/` 仅包含需合并进本机后台的增量文件。
+### 1. Reconstructing the Object from Video
 
-本仓库的本地测试不代表生产服务器已升级；以生产 `/api/health` 的版本和 [远程管理验收步骤](deploy/REMOTE_OPERATOR_ZH.md) 为准。`docs/本次部署状态与数据库说明.md` 记录的是首次交付时的状态。旧 `deploy/README.md` 描述早期静态站点原型；当前云端客户服务独立运行，Mac 仅负责排队建模与远程操作。
+We started with **COLMAP photogrammetry**, using overlapping video frames to recover camera poses and a dense point cloud. A printed target with a known distance between its two circle centers provided the reference for converting reconstruction units into millimeters.
 
-## 代码结构
+The first challenge was the object itself. Dark surfaces, reflections, plain regions, and the open socket produced incomplete or noisy geometry. A reconstruction could register many cameras while relying heavily on the background. Increasing the point count did not reliably improve the parts that mattered for fitting.
 
-- `dist/`：主页、邮箱登录／注册、设计向导、用户设计／订单／配送／账户、管理员页面和本地 3D 资源。
-- `cloud/app.py`：个人账户、会话、私有上传、建模事件、订单、付款审核和物流接口。
-- `cloud/deploy.py`：目标网站备份、独立数据库、后端服务、站点 Nginx 和每日备份的部署脚本；运行前需先为目标站点准备有效 HTTPS 证书，并检查服务器实际配置。
-- `cloud/backup.py`：MySQL 与私有资料备份，含 SHA-256 清单。备份包含连接配置，应保持私有。
-- `cloud/test_app.py`：业务全流程、用户隔离、Cookie 和恢复验证。
-- `database/schema.sql`：本次应用数据表 DDL 参考；实际初始化由 `app.py` 中 SQLAlchemy 元数据执行。
+We explored several alternatives:
 
-## 本地测试
+| Approach | What we learned |
+|---|---|
+| COLMAP parameter tuning and OpenMVS | Different reconstruction settings could improve coverage, but more surface points did not automatically mean more accurate local geometry. |
+| 3D Gaussian Splatting | Useful for inspecting appearance and viewpoints; Gaussian centers were not a reliable contact surface for a fitted cover. |
+| Pixal3D and Tencent Hunyuan 3D | Generated meshes offered shape references, but their proportions and details could disagree with the observed object. They could not establish a trustworthy inner cavity. |
+| Photo silhouettes and visual hulls | Image contours helped reveal alignment errors and missing regions. Openings and hidden surfaces still needed separate interpretation. |
+| CGAL wrapping and smooth envelopes | Envelopes helped bound observed geometry, but smoothing could erase hardware details or close an opening that should remain open. |
 
-Python 3.11 或更新版本：
+These experiments are preserved in [`research/`](research/). They are historical investigations, rather than interchangeable production pipelines.
 
-```sh
-python3 -m venv .venv
-.venv/bin/pip install -r cloud/requirements.txt
-.venv/bin/pip install httpx pytest
-.venv/bin/pytest -q cloud/test_app.py
+### 2. Moving from Reconstruction to a Cover
+
+We also tried direct point-cloud lofting, elliptical cross-sections, and template deformation. Each solved part of the problem:
+
+- Simple cross-sections produced clean surfaces but rounded away the object's irregular shape.
+- Following every point too closely transferred noise into the cover.
+- Small, bounded template adjustments preserved decorative features but could leave most of the cavity incorrectly sized.
+- Fixing the template's upper edge prevented visible distortion, but did not make that edge correspond to the real socket opening.
+
+We experimented with **WorkBuddy, DeepSeek, and Blender scripting** to propose and revise geometry. This helped with iteration, but an agent could still generate a plausible-looking mesh with incorrect clearances, disconnected pieces, or a distorted opening.
+
+We therefore separated the agent's role from the geometry engine: the agent prepares evidence, interprets ambiguity, and handles exceptions; repeatable geometric operations run through controlled scripts with explicit checks.
+
+### 3. Physical Fitting Changed the Direction
+
+An early printed version could be placed around the prosthesis in separate halves, but the halves left a large gap when assembled. The rear also bulged outward, while the front did not follow the actual shape.
+
+That feedback exposed a limitation of our digital checks. A watertight STL, a convincing render, or agreement with the same data used to generate the model could not establish physical fit.
+
+We returned to the input data. For the next capture, the object's surface was covered with additional texture to make feature matching more reliable. We rebuilt it from that new video and **excluded Hunyuan from this iteration**.
+
+### 4. The Point-Cloud-Driven Route
+
+The textured capture registered **114 out of 114 frames**, producing approximately **1.71 million dense points**, including about **402,000 cropped subject points**. The user confirmed that the printed calibration target's circle centers were **200 mm apart**.
+
+The revised method combines:
+
+1. **A current-capture scale and rigid coordinate frame.** Crop away the background, estimate the body's axis from multiple sections, and verify orientation against the original cameras.
+2. **A symmetric style template.** Start from the two-part `06` ventilated template, with a shared coordinate system for both halves.
+3. **Full-height fitting.** Build height-and-angle profiles from the observed outer surface, constrain smoothing with those observations, and apply one deformation field to both halves.
+4. **Separate treatment of the opening and hardware.** Trim the top against the observed rim, extend the lower cover along the connector, and create a dedicated bolt clearance instead of smoothing the bolt into a bulge.
+5. **Checks on the exported geometry.** Inspect connectedness, watertightness, winding, intersections between halves, bolt-channel clearance, sampled wall thickness, and cross-sections against the cloud.
+
+The final case-specific revision extended the lower edge by **60 mm** and added a **38 mm bolt opening**. Those dimensions belong to that capture; they are not universal defaults for another prosthesis.
+
+The user subsequently reported that the printed **V5 fitted very well**. We recorded that feedback against the exact front and rear STL hashes. It is a successful fitting report for that version, rather than a claim of measured accuracy or validation across multiple users.
+
+### 5. Turning the Experiment into a Repeatable Workflow
+
+We extracted the successful approach from one-off experiment scripts into the [`scanfit` engine](forme-backend/scripts/scanfit/). The operator's main flow is now:
+
+**Start reconstruction → review the current geometry → generate and inspect the STL package.**
+
+After geometry approval, a persistent local queue runs fitting, rim trimming, bolt opening, checks, previews, and packaging. WorkBuddy or another agent can coordinate the task through MCP, the API, or a local CLI using the shared [workflow skill](work-buddy-handoff/skills/forme-scan-workflow/SKILL.md).
+
+Input hashes bind each approval to its video, camera model, calibration, point cloud, review images, and template. Interrupted or failed jobs retain their state instead of publishing partial output. A later software replay of the same capture completed the managed workflow and API downloads; its newly generated files do not inherit the original V5's physical-fitting result.
+
+Our central lesson was that **capture quality, coordinate alignment, and localized geometric evidence mattered more than a visually complete generated model**. Physical feedback helped us decide which parts of the process to automate and which observations still needed review.
+
+## Project Overview
+
+**Forme is a hackathon prototype for designing personalized prosthetic covers from phone video.** It connects a customer-facing design experience, a cloud task service, and a local reconstruction and fabrication workflow.
+
+### What the Prototype Provides
+
+- A customer website with video upload, style and color selection, interactive 3D template previews, and English / Traditional Chinese switching.
+- Cloud accounts, persistent submissions, progress tracking, and administrator tools, alongside order and payment-proof review features.
+- A local studio for reconstruction, geometric review, and two-part cover generation.
+- Millimeter STL files for the front, rear, and combined assembly, plus a local fit coupon, previews, and review reports.
+- An agent handoff skill and MCP tools for coordinating the workflow without repeatedly rewriting geometry scripts.
+
+### System Architecture
+
+```mermaid
+flowchart LR
+    Customer[Customer website] --> Cloud[Cloud API and task storage]
+    Cloud --> Bridge[Mac task bridge]
+    Bridge --> Reconstruction[COLMAP reconstruction]
+    Reconstruction --> Review[Scale and geometry review]
+    Agent[WorkBuddy or another agent] --> Review
+    Review --> Queue[Persistent cover queue]
+    Queue --> Geometry[Profile fitting and Blender operations]
+    Geometry --> Delivery[STL files, fit coupons and reports]
+    Delivery --> Cloud
+    Delivery --> Trial[Slicing, printing and physical fitting]
 ```
 
-服务器只发布 `dist/`；不要把 `cloud/`、私有数据库、上传文件、生产连接配置或备份包放进公开网站目录。
+The cloud handles intake and task history; the Mac handles the local modeling workload. Geometry preparation can be agent-assisted, while uncertain observations and physical dimensions require a real basis. The default scan-first route does not call Hunyuan.
 
-原仓库不含自动视频重建／COLMAP／Blender 建模工作器。本版本完整持久保存提交、支持人工更新和上传实际模型；没有声称自动生成可打印、已适配的保护套。付款是凭证提交和人工审核，不是第三方自动扣款网关。
+### Technology and Repository Map
+
+| Component | Implementation | Source |
+|---|---|---|
+| Customer and administrator interfaces | HTML, CSS, JavaScript, 3D previews | [`dist/`](dist/) |
+| Cloud service | Python, FastAPI, SQLAlchemy, MySQL | [`cloud/`](cloud/), [`database/`](database/) |
+| Local workflow and operator console | Python, FastAPI, SQLite, persistent workers | [`forme-backend/`](forme-backend/) |
+| Reconstruction and geometry | COLMAP, NumPy, SciPy, trimesh, Blender | [`scanfit scripts`](forme-backend/scripts/scanfit/) |
+| Agent coordination | WorkBuddy MCP, shared skill, local CLI | [`work-buddy-handoff/`](work-buddy-handoff/) |
+| Historical exploration | Reconstruction, silhouette, wrapping, and fitting experiments | [`research/`](research/) |
+
+### Validation and Current Scope
+
+The local implementation passed **24 backend tests** and **5 media-loading tests**. A real-data replay exercised the managed generation pipeline and downloads for both halves, the combined STL, and the delivery archive.
+
+The first supported scan-first style is the `06` ventilated template. Other styles appear in the design interface, but their geometry requires separate integration. The fitting evidence currently consists of the user's feedback on one printed V5 case. Printer settings, thin features, fasteners, and fit still need review for each new output. This hackathon prototype has not undergone clinical or broad manufacturing validation.
+
+### Running and Extending the Project
+
+Start with the [complete source handoff](docs/FULL_SOURCE_HANDOFF_ZH.md) and [scan-first workflow guide](forme-backend/SCAN_WORKFLOW_ZH.md), both currently in Chinese. The [agent skill](work-buddy-handoff/skills/forme-scan-workflow/SKILL.md) includes task interfaces, geometry preparation, and recovery procedures. Cloud deployment guidance is in [`deploy/`](deploy/).
+
+The repository contains the application source and the symmetric `06` production template base. Private capture data, databases, API keys, and runtime configuration are excluded. Native reconstruction tools and a geometry Python environment must be configured separately; some workstation scripts retain machine-specific default paths. Deploy only `dist/` as public static files, with the cloud API configured separately. Publishing the static site alone does not enable the modeling workflow.
